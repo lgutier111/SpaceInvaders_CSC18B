@@ -19,11 +19,11 @@ public class InvaderGame extends Canvas {
     //random number generator
     private final Random random = new Random();
     //game dimentions
-    private final int WIDTH = 300;
-    private final int HEIGHT = 400;
+    private final int WIDTH = 400;
+    private final int HEIGHT = 300;
     private final int SCALE = 2;
     //bufer for page flipping
-    private BufferStrategy strategy;
+    private final BufferStrategy strategy;
     // The entity representing the player
     private Entity ship;
     //ships spped in pixels/sec
@@ -52,8 +52,8 @@ public class InvaderGame extends Canvas {
     private String message = "";
 
 //counting system
-    private int FPS = 60;//frames per second
-    private long TARGETTIME = 1000 / FPS;
+    private final int FPS = 60;//frames per second
+    private final long TARGETTIME = 1000 / FPS;
 
     public InvaderGame() {
         //create game frame
@@ -61,11 +61,11 @@ public class InvaderGame extends Canvas {
 
         //Set Game Area
         JPanel panel = (JPanel) container.getContentPane();
-        panel.setPreferredSize(new Dimension(HEIGHT * SCALE, WIDTH * SCALE));
+        panel.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         panel.setLayout(null);
 
         //set canvas size and add to frame
-        setBounds(0, 0, HEIGHT * SCALE, WIDTH * SCALE);
+        setBounds(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
         panel.add(this);
 
         // prevent awt repaint
@@ -78,6 +78,7 @@ public class InvaderGame extends Canvas {
 
         // add a listener to respond to exit on close
         container.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
@@ -112,7 +113,7 @@ public class InvaderGame extends Canvas {
 
     //Notification that the player has died.
     public void notifyDeath() {
-        message = "Oh no! They got you, try again?";
+        message = "You have died!";
         waitingForKeyPress = true;
     }
 
@@ -143,10 +144,12 @@ public class InvaderGame extends Canvas {
             //get and initialize graphics context
             Graphics2D g = (Graphics2D) strategy.getDrawGraphics();
             g.setColor(Color.black);
-            g.fillRect(0, 0, HEIGHT * SCALE, WIDTH * SCALE);
+            g.fillRect(0, 0, WIDTH*SCALE, HEIGHT*SCALE);
 
-            //spawn enemy
-            spawnEnemy();
+            if (!waitingForKeyPress) {
+                //spawn enemy
+                spawnEnemy();
+            }
 
             // cycle round asking each entity to move itself
             if (true) {
@@ -192,6 +195,7 @@ public class InvaderGame extends Canvas {
                 g.setColor(Color.white);
                 g.drawString(message, (800 - g.getFontMetrics().stringWidth(message)) / 2, 250);
                 g.drawString("Press any key", (800 - g.getFontMetrics().stringWidth("Press any key")) / 2, 300);
+            g.drawString("W,A,S,D for controls. Space to Fire", (800 - g.getFontMetrics().stringWidth("W,A,S,D for controls. Space to Fire")) / 2, 325);
             }
             //clear graphics and flip buffer
             g.dispose();
@@ -245,22 +249,22 @@ public class InvaderGame extends Canvas {
     }
 
     /**
-	 * Start a fresh game, this should clear out any old data and
-	 * create a new set.
-	 */
-	private void startGame() {
-		// clear out any existing entities and intialise a new set
-		entities.clear();
-		initEntities();
-		
-		// blank out any keyboard settings we might currently have
-		leftPressed = false;
-		rightPressed = false;
-                upPressed = false;
-                downPressed=false;
-		triggerPull = false;
-	}
-        
+     * Start a fresh game, this should clear out any old data and create a new
+     * set.
+     */
+    private void startGame() {
+        // clear out any existing entities and intialise a new set
+        entities.clear();
+        initEntities();
+
+        // blank out any keyboard settings we might currently have
+        leftPressed = false;
+        rightPressed = false;
+        upPressed = false;
+        downPressed = false;
+        triggerPull = false;
+    }
+
     //create enemyship at random location at
     //random intervals between 1 and 5 secs
     private long lastSpawn = 0;
@@ -338,13 +342,13 @@ public class InvaderGame extends Canvas {
             }
         }
 
-    // Any Key notification
+        // Any Key notification
         //@param e key event object
         public void keyTyped(KeyEvent e) {
             // if waiting for a "any key" check if recieved any recently. 
             if (waitingForKeyPress) {
                 if (pressCount == 1) {
-                // since we've now recieved our key typed
+                    // since we've now recieved our key typed
                     // event we can mark it as such and start 
                     // our new game
                     waitingForKeyPress = false;
