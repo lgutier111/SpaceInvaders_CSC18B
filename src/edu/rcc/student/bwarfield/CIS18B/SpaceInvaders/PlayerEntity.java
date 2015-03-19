@@ -21,17 +21,21 @@ public class PlayerEntity extends Entity {
     @Override
     public void move(long delta) {
         //set bounds to prevent movement offscreen
-        if ((dx < 0) && (x < 10)) {//right bound
-            dx=0;
+        if ((dx < 0) && (x <= 10)) {//right bound
+            dx = 0;
+            x=10;
         }
-        if ((dx > 0) && (x > 750)) {//left bound
-            dx=0;
+        if ((dx > 0) && (x >= game.getWIDTH() - this.sprite.getWidth()-10)) {//left bound
+            dx = 0;
+            x=game.getWIDTH() - this.sprite.getWidth()-10;
         }
-        if((dy<0)&& (y<10)){//upper bound
-            dy=0;
+        if ((dy < 0) && (y <= 10)) {//upper bound
+            dy = 0;
+            y=10;
         }
-        if((dy>0)&& (y>550)){//lower bound
-            dy=0;
+        if ((dy > 0) && (y >= game.getHEIGHT() - this.sprite.getHeight()-10)) {//lower bound
+            dy = 0;
+            y = game.getHEIGHT() - this.sprite.getHeight()-10;
         }
 
         super.move(delta);
@@ -41,8 +45,9 @@ public class PlayerEntity extends Entity {
     // @param other The entity with which the ship has collided
     public void collidedWith(Entity other) {
         // if its an alien, notify the game that the player is dead
-//        if (other instanceof AlienEntity) {
+//        if (other instanceof EnemyEntity) {
 //            game.notifyDeath();
+//
 //        }
     }
 

@@ -13,21 +13,21 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SpringLayout;
 
 public class InvaderGame extends Canvas {
 
     //random number generator
     private final Random random = new Random();
     //game dimentions
-    private final int WIDTH = 400;
-    private final int HEIGHT = 300;
-    private final int SCALE = 2;
+    private final int WIDTH = 800;
+    private final int HEIGHT = 600;
     //bufer for page flipping
     private final BufferStrategy strategy;
     // The entity representing the player
     private Entity ship;
-    //ships spped in pixels/sec
-    private float moveSpeed = 350;
+    //ships speed in pixels/sec
+    private float moveSpeed = 300;
     //Diagonal movement factor
     private final float DIAGONAL = (float) Math.sin(45);
     // True if the game is currently "running"
@@ -42,6 +42,7 @@ public class InvaderGame extends Canvas {
     private boolean upPressed;
     private boolean downPressed;
     private boolean triggerPull;//firing mechanism
+    private boolean enemyTrigger;//debug enemy targeting
     //Time since players last shot
     private long lastShot = 0;
     //player shootrate in 1/ms
@@ -57,15 +58,14 @@ public class InvaderGame extends Canvas {
 
     public InvaderGame() {
         //create game frame
-        JFrame container = new JFrame("Space Invaders");
+        JFrame container = new JFrame("Invaders From Space");
 
         //Set Game Area
         JPanel panel = (JPanel) container.getContentPane();
-        panel.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-        panel.setLayout(null);
-
+        panel.setPreferredSize(new Dimension(WIDTH - 10, HEIGHT - 10));//jPanel keeps adding a 10px border for some reason
+        panel.setLayout(new SpringLayout());
         //set canvas size and add to frame
-        setBounds(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
+        setBounds(0, 0, WIDTH, HEIGHT);
         panel.add(this);
 
         // prevent awt repaint
@@ -75,6 +75,11 @@ public class InvaderGame extends Canvas {
         container.pack();
         container.setResizable(false);
         container.setVisible(true);
+        //debugging
+//        System.out.println(panel.getHeight() + ", " + panel.getWidth());
+//        System.out.println(panel.getPreferredSize());
+//        System.out.println(container.getWidth() + ", " + container.getHeight());
+//        System.out.println(container.getPreferredSize());
 
         // add a listener to respond to exit on close
         container.addWindowListener(new WindowAdapter() {
@@ -98,10 +103,19 @@ public class InvaderGame extends Canvas {
 
     }
 
+    //Dimention Getters
+    public int getWIDTH() {
+        return WIDTH;
+    }
+
+    public int getHEIGHT() {
+        return HEIGHT;
+    }
+
     //initialize entities to starting state
     private void initEntities() {
-        //create pllayer ship
-        ship = new PlayerEntity(this, 370, 550, "sprites/whiteSprite.png");
+        //create player ship
+        ship = new PlayerEntity(this, (WIDTH) / 2, (HEIGHT) - 100, "sprites/whiteSprite.png");
         entities.add(ship);
     }
 
@@ -114,7 +128,10 @@ public class InvaderGame extends Canvas {
     //Notification that the player has died.
     public void notifyDeath() {
         message = "You have died!";
+        ship.setHorizontalMovement(0);
+        ship.setVerticalMovement(0);
         waitingForKeyPress = true;
+//        gameRunning = false;
     }
 
     //Shooting method
@@ -144,58 +161,61 @@ public class InvaderGame extends Canvas {
             //get and initialize graphics context
             Graphics2D g = (Graphics2D) strategy.getDrawGraphics();
             g.setColor(Color.black);
-            g.fillRect(0, 0, WIDTH*SCALE, HEIGHT*SCALE);
+            g.fillRect(0, 0, WIDTH, HEIGHT);
+
+            //debugging
+            g.setColor(Color.GREEN);
+            g.drawString("x=" + ship.getX() + ", y=" + ship.getY(), 15, 15);
 
             if (!waitingForKeyPress) {
                 //spawn enemy
                 spawnEnemy();
-            }
 
-            // cycle round asking each entity to move itself
-            if (true) {
+                // cycle round asking each entity to move itself
+                if (true) {
+                    for (int i = 0; i < entities.size(); i++) {
+                        Entity entity = (Entity) entities.get(i);
+
+                        entity.move(delta);
+                    }
+                }
+                // cycle round drawing all the entities we have in the game
                 for (int i = 0; i < entities.size(); i++) {
                     Entity entity = (Entity) entities.get(i);
 
-                    entity.move(delta);
+                    entity.draw(g);
                 }
-            }
-            // cycle round drawing all the entities we have in the game
-            for (int i = 0; i < entities.size(); i++) {
-                Entity entity = (Entity) entities.get(i);
 
-                entity.draw(g);
-            }
+                // brute force collisions, compare every entity against
+                // every other entity. If any of them collide notify 
+                // both entities that the collision has occurred
+                for (int p = 0; p < entities.size(); p++) {
+                    for (int s = p + 1; s < entities.size(); s++) {
+                        Entity me = (Entity) entities.get(p);
+                        Entity him = (Entity) entities.get(s);
 
-            // brute force collisions, compare every entity against
-            // every other entity. If any of them collide notify 
-            // both entities that the collision has occurred
-            for (int p = 0; p < entities.size(); p++) {
-                for (int s = p + 1; s < entities.size(); s++) {
-                    Entity me = (Entity) entities.get(p);
-                    Entity him = (Entity) entities.get(s);
-
-                    if (me.collidesWith(him)) {
-                        me.collidedWith(him);
-                        him.collidedWith(me);
+                        if (me.collidesWith(him)) {
+                            me.collidedWith(him);
+                            him.collidedWith(me);
+                        }
                     }
                 }
-            }
 
-            // remove any entity that has been marked for clear up
-            entities.removeAll(removeList);
-            if (removeList.size() > 0) {
+                // remove any entity that has been marked for clear up
+                entities.removeAll(removeList);
+                if (removeList.size() > 0) {
 //                System.out.println("Removed: "+removeList);//for debugging
 //                System.out.println("Entities: "+entities);
+                }
+                removeList.clear();
             }
-            removeList.clear();
-
             // if we're waiting for an "any key" press then draw the 
             // current message 
             if (waitingForKeyPress) {
                 g.setColor(Color.white);
-                g.drawString(message, (800 - g.getFontMetrics().stringWidth(message)) / 2, 250);
-                g.drawString("Press any key", (800 - g.getFontMetrics().stringWidth("Press any key")) / 2, 300);
-            g.drawString("W,A,S,D for controls. Space to Fire", (800 - g.getFontMetrics().stringWidth("W,A,S,D for controls. Space to Fire")) / 2, 325);
+                g.drawString(message, (WIDTH - g.getFontMetrics().stringWidth(message)) / 2, (int) (HEIGHT * 0.45));
+                g.drawString("Press any key", (WIDTH - g.getFontMetrics().stringWidth("Press any key")) / 2, (int) (HEIGHT * 0.5));
+                g.drawString("W,A,S,D for controls. Space to Fire", (WIDTH - g.getFontMetrics().stringWidth("W,A,S,D for controls. Space to Fire")) / 2, (int) (HEIGHT * 0.55));
             }
             //clear graphics and flip buffer
             g.dispose();
@@ -203,6 +223,18 @@ public class InvaderGame extends Canvas {
             //firing mechanism
             if (triggerPull) {
                 trigger();
+            }
+            
+            //testing enemy targetting
+            if(enemyTrigger){
+                for(int k=0;k<entities.size();k++){
+                    if(entities.get(k) instanceof EnemyEntity){
+//                        ((EnemyEntity)entities.get(k)).shoot((PlayerEntity) ship);//shoot at player
+//                        ((EnemyEntity)entities.get(k)).shoot();//shoot straight down
+                        ((EnemyEntity)entities.get(k)).shoot3Way((PlayerEntity)ship);//shoot straight down
+//                        System.out.println(entities);
+                    }
+                }
             }
 
             // resolve the movement of the ship. First assume the ship 
@@ -255,6 +287,7 @@ public class InvaderGame extends Canvas {
     private void startGame() {
         // clear out any existing entities and intialise a new set
         entities.clear();
+//        gameRunning = true;
         initEntities();
 
         // blank out any keyboard settings we might currently have
@@ -272,16 +305,22 @@ public class InvaderGame extends Canvas {
     private void spawnEnemy() {
         lastSpawn++;
         int willSpawn = random.nextInt(FPS * 4) + FPS;
-        int xPop = random.nextInt(700) + 50;
+        int xPop = random.nextInt((int) (0.9 * WIDTH)) + (int) (0.05 * WIDTH);//random point within center 90% of screen
         if (lastSpawn > 60) {
-            if (lastSpawn > 300 || willSpawn > FPS * 4.9) {
+            if (lastSpawn > 300 || willSpawn > FPS * 4.9999) {
                 EnemyEntity enemyShip = new EnemyEntity(this, xPop, -100, "sprites/enemyship1a.png");
-                enemyShip.setVerticalMovement(random.nextInt(150) + 175);
+                enemyShip.setVerticalMovement(random.nextInt(10) + 175);
                 entities.add(enemyShip);
                 lastSpawn = 0;
             }
         }
 
+    }
+    
+    //add enemy shot entity to entity list
+    //@param EnemyEntityShot object
+    public void addShot(EnemyShotEntity shot){
+        entities.add(shot);
     }
 
     //Keyboard input handler
@@ -313,6 +352,9 @@ public class InvaderGame extends Canvas {
             if (e.getKeyCode() == KeyEvent.VK_S) {
                 downPressed = true;
             }
+            if (e.getKeyCode() == KeyEvent.VK_Z) {
+                enemyTrigger = true;
+            }
 
         }
 
@@ -336,10 +378,14 @@ public class InvaderGame extends Canvas {
             if (e.getKeyCode() == KeyEvent.VK_S) {
                 downPressed = false;
             }
+            if (e.getKeyCode() == KeyEvent.VK_Z) {
+                enemyTrigger = false;
+            }
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 triggerPull = false;
                 lastShot = 0;
             }
+
         }
 
         // Any Key notification
