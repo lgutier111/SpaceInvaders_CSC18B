@@ -117,6 +117,8 @@ public class InvaderGame extends Canvas {
         //create player ship
         ship = new PlayerEntity(this, (WIDTH) / 2, (HEIGHT) - 100, "sprites/whiteSprite.png");
         entities.add(ship);
+        EnemyEntity enemyShip = new EnemyEntity(this, (WIDTH) / 2, (HEIGHT) / 2, "sprites/enemyship1a.png");
+        entities.add(enemyShip);
     }
 
     // Remove an entity from the game. The entity removed will no longer move or be drawn
@@ -165,11 +167,12 @@ public class InvaderGame extends Canvas {
 
             //debugging
             g.setColor(Color.GREEN);
-            g.drawString("x=" + ship.getX() + ", y=" + ship.getY(), 15, 15);
+            g.drawString("Player: x=" + ship.getX() + ", y=" + ship.getY(), 15, 15);
+            g.drawString("Entity Count: " + entities.size(), 15, 30);
 
             if (!waitingForKeyPress) {
                 //spawn enemy
-                spawnEnemy();
+//                spawnEnemy();
 
                 // cycle round asking each entity to move itself
                 if (true) {
@@ -224,15 +227,18 @@ public class InvaderGame extends Canvas {
             if (triggerPull) {
                 trigger();
             }
-            
+
             //testing enemy targetting
-            if(enemyTrigger){
-                for(int k=0;k<entities.size();k++){
-                    if(entities.get(k) instanceof EnemyEntity){
-//                        ((EnemyEntity)entities.get(k)).shoot((PlayerEntity) ship);//shoot at player
-//                        ((EnemyEntity)entities.get(k)).shoot();//shoot straight down
-                        ((EnemyEntity)entities.get(k)).shoot3Way((PlayerEntity)ship);//shoot straight down
-//                        System.out.println(entities);
+            if (enemyTrigger) {
+                for (int k = 0; k < entities.size(); k++) {
+                    if (entities.get(k) instanceof EnemyEntity) {
+//                        ((EnemyEntity)entities.get(k)).shoot(300,ship, 15);//shoot at player
+                        ((EnemyEntity) entities.get(k)).shoot(300, ship, true);//shoot at player
+//                        ((EnemyEntity) entities.get(k)).shoot(1500);//shoot straight down
+//                        for(int j = 0; j<=360; j+=45){
+//                            ((EnemyEntity) entities.get(k)).shoot(500,j);//shoot at angle
+//                        }
+
                     }
                 }
             }
@@ -307,7 +313,7 @@ public class InvaderGame extends Canvas {
         int willSpawn = random.nextInt(FPS * 4) + FPS;
         int xPop = random.nextInt((int) (0.9 * WIDTH)) + (int) (0.05 * WIDTH);//random point within center 90% of screen
         if (lastSpawn > 60) {
-            if (lastSpawn > 300 || willSpawn > FPS * 4.9999) {
+            if (lastSpawn > 300 || willSpawn > FPS * 4.5) {
                 EnemyEntity enemyShip = new EnemyEntity(this, xPop, -100, "sprites/enemyship1a.png");
                 enemyShip.setVerticalMovement(random.nextInt(10) + 175);
                 entities.add(enemyShip);
@@ -316,10 +322,10 @@ public class InvaderGame extends Canvas {
         }
 
     }
-    
+
     //add enemy shot entity to entity list
     //@param EnemyEntityShot object
-    public void addShot(EnemyShotEntity shot){
+    public void addShot(EnemyShotEntity shot) {
         entities.add(shot);
     }
 
@@ -337,8 +343,8 @@ public class InvaderGame extends Canvas {
             if (waitingForKeyPress) {
                 return;
             }
-            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                triggerPull = true;
+            if (e.getKeyCode() == KeyEvent.VK_NUMPAD0) {
+                enemyTrigger = true;
             }
             if (e.getKeyCode() == KeyEvent.VK_A) {
                 leftPressed = true;
@@ -352,8 +358,8 @@ public class InvaderGame extends Canvas {
             if (e.getKeyCode() == KeyEvent.VK_S) {
                 downPressed = true;
             }
-            if (e.getKeyCode() == KeyEvent.VK_Z) {
-                enemyTrigger = true;
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                triggerPull = true;
             }
 
         }
@@ -378,7 +384,7 @@ public class InvaderGame extends Canvas {
             if (e.getKeyCode() == KeyEvent.VK_S) {
                 downPressed = false;
             }
-            if (e.getKeyCode() == KeyEvent.VK_Z) {
+            if (e.getKeyCode() == KeyEvent.VK_NUMPAD0) {
                 enemyTrigger = false;
             }
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
