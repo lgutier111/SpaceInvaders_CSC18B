@@ -11,8 +11,12 @@ public class ShotEntity extends Entity {
 
     //projectile speed
     private float shotSpeed;
+    private int dmg;
     //projectile angle
     private float rad;
+    
+    //current count of shot instances
+    private static int shots;
 
     //The game in which this entity exists
     private GameState game;
@@ -24,17 +28,31 @@ public class ShotEntity extends Entity {
     // @param x The initial x location
     // @param y The initial y location
     // @param ref The reference to the sprite to show for the enemy   
-    public ShotEntity(GameState game, float angle, int x, int y, String ref) {
+    public ShotEntity(GameState game, int dmg, int speed, float angle, int x, int y, String ref) {
         super(x, y, ref);
         this.game = game;
 
         rad = (float) Math.toRadians(angle);
-        shotSpeed = 450;
+        this.shotSpeed = speed;
+        this.dmg = dmg;
         dx = (float) Math.cos(rad) * shotSpeed;
         dy = (float) Math.sin(rad) * shotSpeed;
 
+        shots++;
     }
 
+    //get damage value
+    public int getDmg() {
+        return dmg;
+    }
+
+    //get shot count
+    //@returns static count of shots
+    public static int getShots() {
+        return shots;
+    }
+    
+    
     //move shot
     //@param delta time in miliseconds since last movement
     @Override
@@ -43,7 +61,8 @@ public class ShotEntity extends Entity {
         super.move(delta);
         // if shot goes off the screen, remove shot
         if (y < -200 || y > GamePanel.G_HEIGHT + 200 || x < -200 || x > GamePanel.G_WIDTH + 200) {
-            game.getRemoveList().add(this);
+            game.getRemovePlayerList().add(this);
+            shots--;
         }
         hitBox = new Rectangle((int) (x - sprite.getWidth() / 2), (int) (y - sprite.getHeight() / 2), sprite.getWidth(), sprite.getHeight());
     }
@@ -64,9 +83,18 @@ public class ShotEntity extends Entity {
         return hit;
     }
 
+    @Override
+    public boolean collidesWith(Entity other) {
+        //cancel collision if shot already hit something
+        if (hit) {
+            return false;
+        }
+
+        return super.collidesWith(other);
+    }
+
     //Notification that the player's ship has collided with something
     // @param other The entity with which the shot has collided
-
     @Override
     public void collidedWith(Entity other) {
         // prevents double kills, if we've already hit something, don't collide
@@ -80,8 +108,8 @@ public class ShotEntity extends Entity {
                 return;
             } else {
                 // remove the affected entities
-                game.getRemoveList().add(this);
-
+                game.getRemovePlayerList().add(this);
+                shots--;
                 hit = true;
             }
         }

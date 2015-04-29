@@ -1,15 +1,11 @@
+
 package edu.rcc.student.bwarfield.CIS18B.SpaceInvaders_V2.Main;
 
 import javax.swing.JFrame;
 
+
 public class Game {
-
-    public static void main(String[] args) {
-
-        try {
-            Thread.sleep(3000);
-        } catch (Exception e) {
-        }
+    public static void main (String[] args){
         //Create Game Frame
         JFrame window = new JFrame("Invaders from Space!");
         //set application to close on exit
@@ -20,5 +16,6 @@ public class Game {
         window.pack();
         window.setResizable(false);
         window.setVisible(true);
+        window.setLocationRelativeTo(null);
     }
 }

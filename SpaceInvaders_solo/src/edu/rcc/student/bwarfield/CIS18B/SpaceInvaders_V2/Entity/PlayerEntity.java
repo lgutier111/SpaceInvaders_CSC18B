@@ -25,17 +25,14 @@ public class PlayerEntity extends Entity {
     //Time since players last shot
     private long lastShot = 0;
     //player shootrate in 1/ms
-    private long shotInterval = 250;
-    
+    private long shotInterval = 80;
+
     //shot vars
     private int shotType;
     private int shotLevel;
-    
+
     public static final int BULLET = 1;
     public static final int LASER = 2;
-    
-    
-    
 
     //ships speed in pixels/sec
     private float moveSpeed = 300;
@@ -83,9 +80,9 @@ public class PlayerEntity extends Entity {
 
         //initialize key event vars
         up = down = left = right = trigger = false;
-        
+
         shotType = BULLET;
-        shotLevel = 1;
+        shotLevel = 8;
     }
 
     //do logic associated with this player
@@ -186,31 +183,99 @@ public class PlayerEntity extends Entity {
         }
         //shoot if interval has passed
         lastShot = System.currentTimeMillis();
-        if(shotType == BULLET){
-            if(shotLevel ==1){
-               ShotEntity shot = new ShotEntity(game, -90,(int) (x), (int) (y - 6), "resources/sprites/player/shotBullet1.png"); 
-               game.getEntities().add(shot);
-            }else if(shotLevel ==2){
-//                ShotEntity shot1 = new ShotEntity(game, -90,(int) (x+2), (int) (y - 6), "resources/sprites/player/shotBullet1.png"); 
-//               game.getEntities().add(shot1);
-//                ShotEntity shot2 = new ShotEntity(game, -90,(int) (x-2), (int) (y - 6), "resources/sprites/player/shotBullet1.png"); 
-//               game.getEntities().add(shot2);
-               
-            }else if(shotLevel ==3){
-                
-            }else if(shotLevel ==4){
-                
-            }else if(shotLevel ==5){
-                
-            }else if(shotLevel ==6){
-                
-            }else if(shotLevel ==7){
-                
+        if (shotType == BULLET) {
+            if (shotLevel == 1) {
+                if (ShotEntity.getShots() / 1 <= 5) {
+                    ShotEntity shot = new ShotEntity(game, 2, 750, 270, (int) (x), (int) (y - 6), "resources/sprites/player/shotBullet1.png");
+                    game.getPlayerEntities().add(shot);
+                }
+            } else if (shotLevel == 2) {
+                if (ShotEntity.getShots() / 2 <= 5) {
+                    ShotEntity shot1 = new ShotEntity(game, 2, 750, -90, (int) (x + 6), (int) (y - 6), "resources/sprites/player/shotBullet2.png");
+                    game.getPlayerEntities().add(shot1);
+                    ShotEntity shot2 = new ShotEntity(game, 2, 750, -90, (int) (x - 6), (int) (y - 6), "resources/sprites/player/shotBullet2.png");
+                    game.getPlayerEntities().add(shot2);
+                }
+
+            } else if (shotLevel == 3) {
+                if (ShotEntity.getShots() / 3 <= 5) {
+                    ShotEntity shot1 = new ShotEntity(game, 2, 750, 280, (int) (x + 6), (int) (y - 6), "resources/sprites/player/shotBullet2.png");
+                    game.getPlayerEntities().add(shot1);
+                    ShotEntity shot2 = new ShotEntity(game, 2, 750, 270, (int) (x), (int) (y - 6), "resources/sprites/player/shotBullet2.png");
+                    game.getPlayerEntities().add(shot2);
+                    ShotEntity shot3 = new ShotEntity(game, 2, 750, 260, (int) (x - 6), (int) (y - 6), "resources/sprites/player/shotBullet2.png");
+                    game.getPlayerEntities().add(shot3);
+                }
+
+            } else if (shotLevel == 4) {
+                if (ShotEntity.getShots() / 3 <= 5) {
+                    ShotEntity shot1 = new ShotEntity(game, 3, 750, 280, (int) (x + 6), (int) (y - 6), "resources/sprites/player/shotBullet3.png");
+                    game.getPlayerEntities().add(shot1);
+                    ShotEntity shot2 = new ShotEntity(game, 3, 750, 270, (int) (x), (int) (y - 6), "resources/sprites/player/shotBullet3.png");
+                    game.getPlayerEntities().add(shot2);
+                    ShotEntity shot3 = new ShotEntity(game, 3, 750, 260, (int) (x - 6), (int) (y - 6), "resources/sprites/player/shotBullet3.png");
+                    game.getPlayerEntities().add(shot3);
+                }
+
+            } else if (shotLevel == 5) {
+                if (ShotEntity.getShots() / 5 <= 5) {
+                    ShotEntity shot1 = new ShotEntity(game, 2, 750, 290, (int) (x + 6), (int) (y - 6), "resources/sprites/player/shotBullet2.png");
+                    game.getPlayerEntities().add(shot1);
+                    ShotEntity shot2 = new ShotEntity(game, 2, 750, 280, (int) (x + 6), (int) (y - 6), "resources/sprites/player/shotBullet2.png");
+                    game.getPlayerEntities().add(shot2);
+                    ShotEntity shot3 = new ShotEntity(game, 2, 750, 270, (int) (x), (int) (y - 6), "resources/sprites/player/shotBullet2.png");
+                    game.getPlayerEntities().add(shot3);
+                    ShotEntity shot4 = new ShotEntity(game, 2, 750, 260, (int) (x - 6), (int) (y - 6), "resources/sprites/player/shotBullet2.png");
+                    game.getPlayerEntities().add(shot4);
+                    ShotEntity shot5 = new ShotEntity(game, 2, 750, 250, (int) (x - 6), (int) (y - 6), "resources/sprites/player/shotBullet2.png");
+                    game.getPlayerEntities().add(shot5);
+                }
+            } else if (shotLevel == 6) {
+                if (ShotEntity.getShots() / 5 <= 5) {
+                    ShotEntity shot1 = new ShotEntity(game, 3, 750, 290, (int) (x + 6), (int) (y - 6), "resources/sprites/player/shotBullet3.png");
+                    game.getPlayerEntities().add(shot1);
+                    ShotEntity shot2 = new ShotEntity(game, 3, 750, 280, (int) (x + 6), (int) (y - 6), "resources/sprites/player/shotBullet3.png");
+                    game.getPlayerEntities().add(shot2);
+                    ShotEntity shot3 = new ShotEntity(game, 3, 750, 270, (int) (x), (int) (y - 6), "resources/sprites/player/shotBullet3.png");
+                    game.getPlayerEntities().add(shot3);
+                    ShotEntity shot4 = new ShotEntity(game, 3, 750, 260, (int) (x - 6), (int) (y - 6), "resources/sprites/player/shotBullet3.png");
+                    game.getPlayerEntities().add(shot4);
+                    ShotEntity shot5 = new ShotEntity(game, 3, 750, 250, (int) (x - 6), (int) (y - 6), "resources/sprites/player/shotBullet3.png");
+                    game.getPlayerEntities().add(shot5);
+                }
+            } else if (shotLevel == 7) {
+                if (ShotEntity.getShots() / 5 <= 5) {
+                    ShotEntity shot1 = new ShotEntity(game, 4, 750, 290, (int) (x + 6), (int) (y - 6), "resources/sprites/player/shotBullet4.png");
+                    game.getPlayerEntities().add(shot1);
+                    ShotEntity shot2 = new ShotEntity(game, 4, 750, 280, (int) (x + 6), (int) (y - 6), "resources/sprites/player/shotBullet4.png");
+                    game.getPlayerEntities().add(shot2);
+                    ShotEntity shot3 = new ShotEntity(game, 4, 750, 270, (int) (x), (int) (y - 6), "resources/sprites/player/shotBullet4.png");
+                    game.getPlayerEntities().add(shot3);
+                    ShotEntity shot4 = new ShotEntity(game, 4, 750, 260, (int) (x - 6), (int) (y - 6), "resources/sprites/player/shotBullet4.png");
+                    game.getPlayerEntities().add(shot4);
+                    ShotEntity shot5 = new ShotEntity(game, 4, 750, 250, (int) (x - 6), (int) (y - 6), "resources/sprites/player/shotBullet4.png");
+                    game.getPlayerEntities().add(shot5);
+                }
+            }else if (shotLevel == 8) {
+                if (ShotEntity.getShots() / 7 <= 5) {
+                    ShotEntity shot1 = new ShotEntity(game, 4, 750, 315, (int) (x + 6), (int) (y - 6), "resources/sprites/player/shotBullet4R.png");
+                    game.getPlayerEntities().add(shot1);
+                    ShotEntity shot2 = new ShotEntity(game, 4, 750, 290, (int) (x + 6), (int) (y - 6), "resources/sprites/player/shotBullet4.png");
+                    game.getPlayerEntities().add(shot2);
+                    ShotEntity shot3 = new ShotEntity(game, 4, 750, 280, (int) (x + 6), (int) (y - 6), "resources/sprites/player/shotBullet4.png");
+                    game.getPlayerEntities().add(shot3);
+                    ShotEntity shot4 = new ShotEntity(game, 4, 750, 270, (int) (x), (int) (y - 6), "resources/sprites/player/shotBullet4.png");
+                    game.getPlayerEntities().add(shot4);
+                    ShotEntity shot5 = new ShotEntity(game, 4, 750, 260, (int) (x - 6), (int) (y - 6), "resources/sprites/player/shotBullet4.png");
+                    game.getPlayerEntities().add(shot5);
+                    ShotEntity shot6 = new ShotEntity(game, 4, 750, 250, (int) (x - 6), (int) (y - 6), "resources/sprites/player/shotBullet4.png");
+                    game.getPlayerEntities().add(shot6);
+                    ShotEntity shot7 = new ShotEntity(game, 4, 750, 225, (int) (x - 6), (int) (y - 6), "resources/sprites/player/shotBullet4L.png");
+                    game.getPlayerEntities().add(shot7);
+                }
             }
         }
-        
-        
-        
+
     }
 
     //override draw method
@@ -226,7 +291,7 @@ public class PlayerEntity extends Entity {
 
         //draw hitbox for debugging
 //        g.setColor(Color.BLUE);
-//        g.fillRect((int) hitBox.getX(), (int) hitBox.getY(), (int) hitBox.getWidth(), (int) hitBox.getHeight());
+//        g.drawRect((int) hitBox.getX(), (int) hitBox.getY(), (int) hitBox.getWidth(), (int) hitBox.getHeight());
     }
 
     //move ship

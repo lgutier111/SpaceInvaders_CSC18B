@@ -86,14 +86,20 @@ public abstract class Entity {
 
     //Get the x location of this entity
     //@return x location
-    public int getX() {
-        return (int) x;
+    public float getX() {
+        return x;
+    }
+    
+    //set x location for this entity
+    //@param x location
+    public void setX(float x) {
+        this.x = x;
     }
 
     //Get the y location of this entity
     //@return y location
-    public int getY() {
-        return (int) y;
+    public float getY() {
+        return y;
     }
 
     //check collisions

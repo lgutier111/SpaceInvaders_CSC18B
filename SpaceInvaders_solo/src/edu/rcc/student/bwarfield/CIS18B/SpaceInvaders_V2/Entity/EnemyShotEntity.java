@@ -3,6 +3,9 @@ package edu.rcc.student.bwarfield.CIS18B.SpaceInvaders_V2.Entity;
 
 import edu.rcc.student.bwarfield.CIS18B.SpaceInvaders_V2.GameState.GameState;
 import edu.rcc.student.bwarfield.CIS18B.SpaceInvaders_V2.Main.GamePanel;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 public class EnemyShotEntity extends Entity {
 
@@ -30,15 +33,31 @@ public class EnemyShotEntity extends Entity {
         return shotSpeed;
     }
 
+    @Override
+    public void draw(Graphics g) {
+        super.draw(g); 
+        
+        //debug hitbox position
+//        g.setColor(Color.orange);
+//        g.drawRect(this.hitBox.x, this.hitBox.y, this.hitBox.width, this.hitBox.height);
+    }
+
+    
+    
+    
     //move shot
     //@param delta time in miliseconds since last movement
     @Override
     public void move(long delta) {
         //keep moving
         super.move(delta);
+        
+        //move hitbox along with sprite image
+        hitBox = new Rectangle((int) (x - sprite.getWidth() / 2), (int) (y - sprite.getHeight() / 2), sprite.getWidth(), sprite.getHeight());
+        
         // if shot goes off the screen, remove shot
         if (y < -100 || y > GamePanel.G_HEIGHT+100 || x < -100 || x > GamePanel.G_WIDTH+100) {
-            game.getRemoveList().add(this);
+            game.getRemoveEnemyList().add(this);
         }
     }
 
@@ -49,6 +68,10 @@ public class EnemyShotEntity extends Entity {
         // prevents double kills, if we've already hit something, don't collide
         if (hit) {
             return;
+        }
+        if(other instanceof PlayerEntity){
+            hit=true;
+            game.getRemoveEnemyList().add(this);
         }
 
     }

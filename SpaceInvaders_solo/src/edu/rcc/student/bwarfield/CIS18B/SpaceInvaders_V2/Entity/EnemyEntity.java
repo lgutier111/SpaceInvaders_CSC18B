@@ -30,10 +30,9 @@ public class EnemyEntity extends Entity {
         super(x, y, ref);
         this.game = game;
 
-        health = 5;
+        health = 10;
         dead = hit = false;
-        
-        
+
         setHorizontalMovement(0);
         setVerticalMovement(0);
 
@@ -48,22 +47,18 @@ public class EnemyEntity extends Entity {
         super.move(delta);
         // if enemy goes off the screen, remove enemy
         if (y > GamePanel.G_HEIGHT + 200 || x < -200 || x > GamePanel.G_WIDTH + 200) {
-            game.getRemoveList().add(this);
+            game.getRemoveEnemyList().add(this);
         }
-        hitBox=new Rectangle((int)(x-sprite.getWidth()/2),(int) (y-sprite.getHeight()/2), sprite.getWidth(), sprite.getHeight());
+        hitBox = new Rectangle((int) (x - sprite.getWidth() / 2), (int) (y - sprite.getHeight() / 2), sprite.getWidth(), sprite.getHeight());
     }
 
-    //for horizontal map shifting
-    public void setX(float x) {
-        this.x = x;
-    }
 
     //shoot at angle
     //@param int projectile speed in px/sec
     //@param int angle in degrees (0deg at 6 o'clock)
     public void shoot(int speed, int deg) {
-        EnemyShotEntity shot = new EnemyShotEntity(this.game, (int) x + (this.sprite.getWidth() / 2) - 4, (int) y + (this.sprite.getHeight()), "resources/sprites/enemy/enemyShot1a.png");
-        game.getEntities().add(shot);
+        EnemyShotEntity shot = new EnemyShotEntity(this.game, (int) x + (this.sprite.getWidth() / 2) - 4, (int) y + (this.sprite.getHeight()), "enemyShotAnim1a.gif");
+        game.getEnemyEntities().add(shot);
         shot.setHorizontalMovement((float) (speed * sin(toRadians(deg))));
         shot.setVerticalMovement((float) (speed * cos(toRadians(deg))));
     }
@@ -76,13 +71,13 @@ public class EnemyEntity extends Entity {
         //horizontal difference between player ship and enemy
         float xDiff = (entity.getX() - x);
         //vertical difference between player ship and enemy
-        float yDiff = (entity.getY()) - (y + (this.sprite.getHeight()/2));
+        float yDiff = (entity.getY()) - (y + (this.sprite.getHeight() / 2));
         //angle to target in radians
         float rads = (float) (atan2(xDiff, yDiff));
 
         //spawn bullet at bottom middle of ship sprite (or wherever the guns will be)
-        EnemyShotEntity shot = new EnemyShotEntity(this.game, (int) x, (int) y + (this.sprite.getHeight()/2), "resources/sprites/enemy/enemyShot1a.png");
-        game.getEntities().add(shot);
+        EnemyShotEntity shot = new EnemyShotEntity(this.game, (int) x, (int) y + (this.sprite.getHeight() / 2), "resources/sprites/enemy/enemyShotAnim1a.gif");
+        game.getEnemyEntities().add(shot);
         //target player ship. scale diagonal shotSpeed using trig functions 
         shot.setHorizontalMovement((float) (speed * sin(rads + toRadians(deg))));
         shot.setVerticalMovement((float) (speed * cos(rads + toRadians(deg))));
@@ -127,17 +122,17 @@ public class EnemyEntity extends Entity {
 
         //spawn bullet at bottom middle of ship sprite (or wherever the guns will be)
         EnemyShotEntity shot = new EnemyShotEntity(this.game, (int) x + (this.sprite.getWidth() / 2) - 4, (int) y + (this.sprite.getHeight()), "resources/sprites/enemy/enemyShot1a.png");
-        game.getEntities().add(shot);
+        game.getEnemyEntities().add(shot);
         //target player ship. scale diagonal shotSpeed using trig functions 
         shot.setHorizontalMovement((float) (speed * Math.sin(toRadians(deg))));
         shot.setVerticalMovement((float) (speed * Math.cos(toRadians(deg))));
     }
-    
+
     //is it dead?
-    public boolean isDead(){
+    public boolean isDead() {
         return dead;
     }
-    
+
     //override draw method
     @Override
     public void draw(Graphics g) {
@@ -149,9 +144,15 @@ public class EnemyEntity extends Entity {
         //draw ship
         super.draw(g);
 
+        //if enemy has been hit, flash a colored frame
+        if (hit) {
+            BufferedImage dmg = ImageShader.generateMask((BufferedImage) sprite.getImage(), Color.white, 0.7f);
+            g.drawImage(dmg, (int) x - (dmg.getWidth() / 2), (int) y - (dmg.getHeight() / 2),null);
+            hit = false;
+        }
         //draw hitbox for debugging
-//        g.setColor(Color.RED);
-//        g.fillRect((int) hitBox.getX(), (int) hitBox.getY(), (int) hitBox.getWidth(), (int) hitBox.getHeight());
+        g.setColor(Color.RED);
+        g.drawRect((int) hitBox.getX(), (int) hitBox.getY(), (int) hitBox.getWidth(), (int) hitBox.getHeight());
     }
 
     @Override
@@ -163,15 +164,13 @@ public class EnemyEntity extends Entity {
 
         // if shot, take damage
         if (other instanceof ShotEntity) {
-            if(((ShotEntity)other).hit()){
-                return;
-            }
-            health--;
+            health -= ((ShotEntity) other).getDmg();
             hit = true;
+
             // remove the affected entities
             if (health <= 0) {
                 dead = true;
-                game.getRemoveList().add(this);
+                game.getRemoveEnemyList().add(this);
 
             }
 

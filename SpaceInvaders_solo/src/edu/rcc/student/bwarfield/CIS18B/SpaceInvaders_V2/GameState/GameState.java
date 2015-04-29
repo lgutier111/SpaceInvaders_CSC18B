@@ -1,5 +1,6 @@
 package edu.rcc.student.bwarfield.CIS18B.SpaceInvaders_V2.GameState;
 
+import edu.rcc.student.bwarfield.CIS18B.SpaceInvaders_V2.Entity.Entity;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
@@ -21,16 +22,25 @@ public abstract class GameState {
     public abstract void keyTyped(int k);
 
     // The list of all the entities
-    private ArrayList entities = new ArrayList();
+    private ArrayList<Entity> playerEntities = new ArrayList();
+    private ArrayList<Entity> enemyEntities = new ArrayList();
 
-    public ArrayList getEntities() {
-        return entities;
+    public ArrayList getPlayerEntities() {
+        return playerEntities;
     }
+    public ArrayList getEnemyEntities() {
+        return enemyEntities;
+    }
+    
     //The list of entities that need to be removed from the game this loop
-    private ArrayList removeList = new ArrayList();
+    private ArrayList removeEnemyList = new ArrayList();
+    private ArrayList removePlayerList = new ArrayList();
 
-    public ArrayList getRemoveList() {
-        return removeList;
+    public ArrayList getRemoveEnemyList() {
+        return removeEnemyList;
+    }
+    public ArrayList getRemovePlayerList() {
+        return removePlayerList;
     }
 
 }
