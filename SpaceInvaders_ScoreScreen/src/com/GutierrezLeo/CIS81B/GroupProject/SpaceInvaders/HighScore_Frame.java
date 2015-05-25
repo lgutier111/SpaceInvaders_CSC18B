@@ -1,15 +1,14 @@
 
 package com.GutierrezLeo.CIS81B.GroupProject.SpaceInvaders;
 
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,6 +18,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -43,15 +43,20 @@ public class HighScore_Frame extends JFrame implements ActionListener{
 	private JMenuItem instructionMenuItem, authorsMenuItem;
 	private JButton exitButton, playButton;
 	
+	// Define array for the scores
 	private ArrayList<TopScores> scores = new ArrayList<TopScores>();
+	
+	// Define the score file name
 	private static final String ScoreFile = "scores.dat";
 	
+	// Define program variables
 	private String holdInitial;
 	private int holdScore;
 	private int k;
 	private int lowScore;
 	private int highScore;
 	
+	// Define input / output streams
 	FileInputStream fileInput = null;
 	ObjectInputStream inputStream = null;
 	FileOutputStream fileOutput = null;
@@ -62,20 +67,25 @@ public class HighScore_Frame extends JFrame implements ActionListener{
 		
 		super("HIGH SCORES");
 		
+		// Get and load scores into the score array
 		getScores();
 		getHighScores();
-		this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		
+		// Set up the score panel layouts
+		//this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		this.setLayout(new GridLayout(12,2));
+		
 		this.getContentPane().setBackground(Color.black);
+		
+		// Load all panel items
 		loadMenus();
 		loadHeader();
 		loadPanels();
 		loadButtonPanel();
-		//addScore("   ", 20000);
 	}
 	
 	// Load header method to load the Bold Header
 	public void loadHeader(){
-		//scoresList = new ArrayList<TopScores>();
 		
 		headlbl = new JLabel("HIGH SCORES");
 		headlbl.setFont(new Font("Impact", Font.BOLD, 40));
@@ -89,9 +99,8 @@ public class HighScore_Frame extends JFrame implements ActionListener{
 
 	}
 	
-	// Declare all labels with default values for the moment.
+	// Declare all labels and set font colors for each label.
 	public void loadPanels(){
-		
 		
 		k = 0;
 		scorelbl1 = new JLabel();
@@ -187,41 +196,63 @@ public class HighScore_Frame extends JFrame implements ActionListener{
 		createAPanel(panel10, playerlbl10, scorelbl10);
 
 		int sizeTopScores = scores.size();
-		System.out.println("The size of the TopScores array is: " + sizeTopScores);
-
 	}
 
+	// Loads the file data for each player score.  If there are not enough scores to fill all 10
+	//    spots, then the fields will be to black (invisible).
 	public void loadFileInfo(JLabel playerLabel, JLabel scoreLabel){
 		
-		if (scores.get(k).getInitials() == null){
-			holdInitial = "";
-			holdScore = 0;
-		} else {
-			holdInitial = scores.get(k).getInitials();
-			holdScore = scores.get(k).getScore();
-		}
+		System.out.println("you are in the loadFileInfo method");
+		
+		holdInitial = scores.get(k).getInitials();
+		holdScore = scores.get(k).getScore();
+		
 		playerLabel.setText(holdInitial);
 		scoreLabel.setText(Integer.toString(holdScore));
+		
+		if(scores.get(k).getScore() == 0){
+			playerLabel.setForeground(Color.BLACK);
+			scoreLabel.setForeground(Color.BLACK);
+		} else {
+			playerLabel.setForeground(Color.WHITE);
+			scoreLabel.setForeground(Color.WHITE);
+		}
 	}
 	
 	
+	// Set font and font colors
 	public void setFontColors(JLabel lblName){
+		
+		System.out.println("You are in the setFontColors method");
 		
 		lblName.setFont(new Font("Courier", Font.BOLD, 20));
 		lblName.setForeground(Color.WHITE);
-		
 	}
 	
 	// Create a panel from data passed to it from the calling method.  The name of the panel, the 
 	//   player and score are required for each one.
 	public void createAPanel(JPanel panelName, JLabel playerLabel, JLabel scoreLabel){
 		
-		panelName.setLayout(new FlowLayout());
+		// Using the grid layout to set up the player scores
+		GridLayout layout = new GridLayout(0,2);
+		
+		// Set layout for player/score panel
+		panelName.setLayout(layout);
+		
+		// Set a horizontal and vertical gap of 5
+		layout.setHgap(5);
+		layout.setVgap(5);
+		
+		// Add the 2 lables (player and score) to the panel
 		panelName.add(playerLabel);
 		panelName.add(scoreLabel);
-		panelName.setAlignmentX(CENTER_ALIGNMENT);
+		
+		// Set the background color to black for each panel
 		panelName.setBackground(Color.black);
+		
+		// Add the panel to the JFrame
 		this.add(panelName);
+		
 	}
 	
 	// Create the menu bar and menu items.
@@ -248,61 +279,124 @@ public class HighScore_Frame extends JFrame implements ActionListener{
 		authorsMenuItem.addActionListener(this);
 	}
 	
+	// Define the button panel and add the 2 buttons for the panel
 	public void loadButtonPanel(){
 		
+		// Define the button panel
 		buttonPanel = new JPanel();
+		
+		// Define the 2 buttons
 		playButton = new JButton("Play Again");
 		exitButton = new JButton("Exit");
+		
+		// Add the 2 buttons to the button panel
 		buttonPanel.add(playButton);
 		buttonPanel.add(exitButton);
+		
+		// Set the background color to black 
 		buttonPanel.setBackground(Color.BLACK);
+		
+		// Add the button panel to the JFrame
 		this.add(buttonPanel);
+		
+		// Define the actions listeners for the 2 buttons
 		playButton.addActionListener(this);
 		exitButton.addActionListener(this);
 		
 	}
 	
+	// Load the Array so that the scores can be sorted in Descending order
 	public ArrayList<TopScores> getScores(){
 		
+		// Call the loadScoreFile method
 		loadScoreFile();
+		
+		// Call the sort method
 		sort();
+		
+		// return the scores
 		return scores;
 	}
 	
+	// Sort method
 	public void sort(){
+		
+		// Verify score method will determine if the score should be in the top 10
 		VerifyScore verify = new VerifyScore();
 		Collections.sort(scores, verify);
-		
-		System.out.println("You are in the sort method");
 	}
-	
+
+	// addScore method will request user input from player for their initial if their score is 
+	//    greater than the lowest of the top 10 scores.
 	public void addScore(String initials, int score){
+
+		// method variables
 		String myInitials = "   ";
+		String spaceOut = "            ";
+		int myScore = score;
+		
+		// Get the lowest and highest scores
 		lowScore = scores.get(9).getScore();
 		highScore = scores.get(0).getScore();
 		
-		System.out.println("lowScore is: " + lowScore);
-		System.out.println("highScore is: " + highScore);
-		System.out.println("score is: " + score);
-		
+		// If the user's score is greater than the lowest score in the array, then ask for their initials.
 		if(score > lowScore){
 			myInitials = JOptionPane.showInputDialog("Your score is " + score + 
 					". Please enter your initials:");
 		} else {
 			myInitials = "   ";
+			myScore = score;
 		}
-
-		initials = myInitials;
-		//loadScoreFile();
-		scores.add(new TopScores(initials, score));
+		
+		// Initials are limited to 3 bytes only.  If the user enters more than 3 bytes, accept the user
+		//    input and truncate any bytes beyond 3.
+		if(myInitials.length() > 3){
+			myInitials = myInitials.substring(0, 3);
+		}
+		
+		// If the user hit cancel and did not enter any initials, then the initials will get spaces and
+		//    will store only the score.  If the user did enter initials, and they were lower case, we
+		//    will convert the initials to upper case.
+		if(myInitials != null){
+			initials = spaceOut + myInitials.toUpperCase();
+		}
+		
+		// Add the scores to the top 10 scores with initials if entered
+		scores.add(new TopScores(initials, myScore));
+		
+		// Call the updateScoreFile method
 		updateScoreFile();
+		
+		// Call the loadScoreFile method
 		loadScoreFile();
+		
+		// Call the getHighScores method
 		getHighScores();
+		
+		// Call the reloadScores method
 		reloadScores();
 	}
 	
+	//Set the default scores to blanks and 0 if it is the first time running the game
+	public void defaultScore(String initials, int score){
+		
+		String myInitials = "   ";
+		int defaultScore = 0;
+		initials = myInitials.toUpperCase();
+		score = defaultScore;
+		
+		// Fill the array with 10 initial 0 scores
+		for (int i = 0; i < 10; i++){
+			scores.add(new TopScores(initials, score));
+			updateScoreFile();
+		}
+	}
+	
+	
+	// reloadScores method is to refresh the score screen after a new score has been updated
 	public void reloadScores(){
 		
+		// Call the loadFileInfo for each player/score to refresh the scores.
 		k=0;
 		loadFileInfo(playerlbl1, scorelbl1);
 		k=1;
@@ -326,14 +420,24 @@ public class HighScore_Frame extends JFrame implements ActionListener{
 		
 	}
 	
+	// loadScoreFile method is usded to read the scores.dat file and load the array with data
 	public void loadScoreFile(){
-		
-		System.out.println("You are in the loadScoreFile method");
 		
 		try
 		{
+			//  If the file does not exist (used for first time run), then create the file and create
+			//     10 default 0 scores.
+			File file = new File("scores.dat");
+			if(!file.exists()){
+				file.createNewFile();
+				defaultScore("AAA",0);
+			}
+			
+			//  Declare the file input stream for serialization with error traps
 			fileInput = new FileInputStream(ScoreFile);
 			inputStream = new ObjectInputStream(fileInput);
+			
+			// Read the scores
 			scores = (ArrayList<TopScores>) inputStream.readObject();
 		}
 		catch (FileNotFoundException e)
@@ -353,6 +457,7 @@ public class HighScore_Frame extends JFrame implements ActionListener{
 		{
 			try
 			{
+				// Close the input streams for the file and the object
 				inputStream.close();
 				fileInput.close();
 			}
@@ -364,14 +469,16 @@ public class HighScore_Frame extends JFrame implements ActionListener{
 		
 	}
 	
+	// updateScoreFile method is to update the scores.dat file with the new score just entered
 	public void updateScoreFile(){
-		
-		System.out.println("You are in the updateScoreFile method");
 		
 		try
 		{
+			// Declare the output streams for writing the data
 			fileOutput = new FileOutputStream(ScoreFile);
 			outputStream = new ObjectOutputStream(fileOutput);
+			
+			// Write the new data to the scores.dat file
 			outputStream.writeObject(scores);
 		}
 		catch (FileNotFoundException e)
@@ -386,6 +493,8 @@ public class HighScore_Frame extends JFrame implements ActionListener{
 		finally
 		{
 			try
+			
+			// Close the output streams
 			{
 				outputStream.close();
 				fileOutput.close();
@@ -398,55 +507,63 @@ public class HighScore_Frame extends JFrame implements ActionListener{
 		
 	}
 	
+	// The high scores toString method
 	public String getHighScores(){
-		
-		System.out.println("You are in the getHighScores method");
-		
+
+		// Method variables
 		String scoreString = "";
 		int max = 10;
 		
+		// Array list for the scores
 		ArrayList<TopScores> scores;
 		scores = getScores();
 		
-		int i = 0;
+		// Set the maximum number of scores.  If there are more than 10 scores, then set the max to 10.
 		int x = scores.size();
 		if (x > max) {
 			x = max;
 		}
 		
+		// Will get the top 10 scores from the array.
+		int i = 0;
 		while (i < x){
 			scoreString += (i + 1) + "./t" + scores.get(i).getInitials()
 					+ "/t/t" + scores.get(i).getScore() + "/n";
 			i++;
 		}
 		
+		// Return the string
 		return scoreString;
 	}
 	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if(e.getSource() == playButton){
+			//**************************************************************
+			//    insert call to start the game again and hide this JFrame
+			//**************************************************************
 			System.out.println("You have clicked the Play Button");
 		}
 		
+		// Exit the game
 		if(e.getSource() == exitButton){
+			
 			System.exit(0);
 		}
 		
+		// Instructions menu
 		if(e.getSource() == instructionMenuItem){
-			//System.out.println("You have selected the Instructions menu item");
-			
+
 			JOptionPane.showMessageDialog(this,"Scoring:\n 10 Front row  \n20 Second row  \n30 Third Row"
 					+ "\nSpaceShip is ????   \nObject of the game to hit all the aliens before you run"
 					+ "out of lives.  \nPlay as long as possible to get the high score. ",
 					"Instructions",JOptionPane.INFORMATION_MESSAGE);
 		}
 		
+		// Who collaborated in this game
 		if(e.getSource() == authorsMenuItem){
-			//System.out.println("You have selected the Authors menu item");
-			
+
 			JOptionPane.showMessageDialog(this,"         SPACE INVADERS         \n"
 										    +  "                                \n"
 										    +  "          Developed by          \n"
@@ -454,7 +571,6 @@ public class HighScore_Frame extends JFrame implements ActionListener{
 											+  "         Travis Hajagos         \n"
 											+  "         Brian Warfield         \n"
 											+  "         Leo Gutierrez          \n"
-											+  "          Ryan Cooper           \n"
 											+  "          David Silva             ",
 											"THE AUTHORS",JOptionPane.INFORMATION_MESSAGE);
 		}
