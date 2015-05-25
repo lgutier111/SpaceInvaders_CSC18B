@@ -350,8 +350,10 @@ public class HighScore_Frame extends JFrame implements ActionListener{
 		
 		// Initials are limited to 3 bytes only.  If the user enters more than 3 bytes, accept the user
 		//    input and truncate any bytes beyond 3.
-		if(myInitials.length() > 3){
-			myInitials = myInitials.substring(0, 3);
+		if(myInitials != null){
+			if(myInitials.length() > 3){
+				myInitials = myInitials.substring(0, 3);
+			}
 		}
 		
 		// If the user hit cancel and did not enter any initials, then the initials will get spaces and
