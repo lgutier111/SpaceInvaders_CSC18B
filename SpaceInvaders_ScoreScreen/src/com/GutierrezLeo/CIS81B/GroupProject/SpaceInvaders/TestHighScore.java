@@ -17,7 +17,7 @@ public class TestHighScore {
 		// lowest value in the top 10 scores.  If you enter a value that is lower, then 
 		// the top 10 scores will just display and you will not be asked to enter any
 		// initials.
-		highScore_Frame.addScore("   ", 113000);
+		highScore_Frame.addScore("   ", 248500);
 		highScore_Frame.setVisible(true);
 		
 		

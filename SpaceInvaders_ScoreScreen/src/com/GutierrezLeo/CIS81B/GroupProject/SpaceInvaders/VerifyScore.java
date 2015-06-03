@@ -2,13 +2,12 @@ package com.GutierrezLeo.CIS81B.GroupProject.SpaceInvaders;
 
 import java.util.Comparator;
 
+// Class to get the top 10 highest scores
 public class VerifyScore implements Comparator<TopScores> {
 	
+	// Compares score by score until sorted
 	public int compare (TopScores score1, TopScores score2){
 	
-		System.out.println("You are in the VerifyScore class");
-		System.out.println("It is comparing 2 scores");
-		
 		int s1 = score1.getScore();
 		int s2 = score2.getScore();
 		
