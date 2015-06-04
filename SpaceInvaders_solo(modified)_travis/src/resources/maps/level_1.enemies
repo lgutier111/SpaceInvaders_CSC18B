@@ -1,0 +1,156 @@
+{
+  "EnemyList": [
+    {
+      "spawnTrigger": 700,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 300,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 750,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 400,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 800,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 500,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 850,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 600,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 900,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 300,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 950,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 400,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 1000,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 500,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 1050,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 100,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 1100,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 50,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 1150,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 800,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 1200,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 750,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 1200,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 500,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 1250,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 150,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 1300,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 600,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 1350,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 600,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 1400,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 600,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 1400,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 600,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 1450,
+      "enemyClassName": "EnemyDart",
+      "rank":1,
+      "spawnX": 600,
+      "spawnY": -100,
+      "spawnRef": ""
+    },
+    {
+      "spawnTrigger": 100,
+      "enemyClassName": "BossEntity",
+      "rank":1,
+      "spawnX": 400,
+      "spawnY": -200,
+      "spawnRef": ""
+    }
+  ]
+}
