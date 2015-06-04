@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Menu class="javax.swing.JMenuBar" name="MenuBar">
+      <SubComponents>
+        <Menu class="javax.swing.JMenu" name="FileMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="File"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="MenuSave">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+S"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Save"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuSaveActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MenuOpen">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+O"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Open"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuOpenActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+      </SubComponents>
+    </Menu>
+  </NonVisualComponents>
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="title" type="java.lang.String" value="Enemy List Editor"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="menuBar" type="java.lang.String" value="MenuBar"/>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="SpawnTriggerLabel" min="-2" pref="150" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="SpawnRefField" alignment="0" max="32767" attributes="0"/>
+                      <Component id="ClassNameComboBox" alignment="0" max="32767" attributes="0"/>
+                      <Component id="ClassNameLabel" alignment="0" pref="150" max="32767" attributes="0"/>
+                      <Component id="SpawnTriggerSpinner" alignment="0" max="32767" attributes="0"/>
+                      <Component id="SpawnReflLabel" alignment="0" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="RankLabel" max="32767" attributes="0"/>
+                  <Component id="SpawnYLabel" max="32767" attributes="0"/>
+                  <Component id="SpawnXLabel" alignment="0" pref="150" max="32767" attributes="0"/>
+                  <Component id="RankSpinner" max="32767" attributes="0"/>
+                  <Component id="SpawnXSpinner" max="32767" attributes="0"/>
+                  <Component id="SpawnYSpinner" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="DeleteEntry" alignment="0" max="32767" attributes="0"/>
+                  <Component id="AddEntry" alignment="0" max="32767" attributes="0"/>
+                  <Component id="CopyEntry" alignment="0" max="32767" attributes="0"/>
+                  <Component id="EditEntry" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="EnemyListLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="460" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="28" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+              <Component id="EnemyListLabel" min="-2" pref="14" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane1" min="-2" pref="214" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="AddEntry" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="DeleteEntry" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="CopyEntry" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="EditEntry" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="SpawnTriggerLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="RankLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="SpawnTriggerSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="RankSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="ClassNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="SpawnXLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="ClassNameComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="SpawnXSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="SpawnReflLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="SpawnYLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="SpawnRefField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="SpawnYSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace pref="24" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JList" name="DisplayList">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier New" size="11" style="0"/>
+            </Property>
+            <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+              <StringArray count="0"/>
+            </Property>
+            <Property name="selectionMode" type="int" value="0"/>
+            <Property name="toolTipText" type="java.lang.String" value="List of Enemy Data"/>
+            <Property name="visibleRowCount" type="int" value="9"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="SpawnTriggerLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="spawnTrigger"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="ClassNameLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="enemyClassName"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="ClassNameComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Name of Enemy Class"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="SpawnReflLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="spawnRef"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="SpawnRefField">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Special flags for enemy class"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="RankLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="rank"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="SpawnXLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="spawnX"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="SpawnYLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="spawnY"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="CopyEntry">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x25c4;"/>
+        <Property name="toolTipText" type="java.lang.String" value="Copy Selected Entry From List"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CopyEntryActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="AddEntry">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="+"/>
+        <Property name="toolTipText" type="java.lang.String" value="Add Entry to list"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddEntryActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="DeleteEntry">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="X"/>
+        <Property name="toolTipText" type="java.lang.String" value="Remove Selected Entry From list"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DeleteEntryActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="EnemyListLabel">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Courier New" size="11" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value=" Index|Tpos   |ClassName       |Rank |Xpos |Ypos |Ref"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="SpawnTriggerSpinner">
+      <Properties>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+          <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="100" type="number"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Distance from Bottom of Map to trigger entity spawn"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="RankSpinner">
+      <Properties>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+          <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Enemy Rank"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="SpawnXSpinner">
+      <Properties>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+          <SpinnerModel initial="0" numberType="java.lang.Integer" stepSize="100" type="number"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Horixontal position relative to curent map which to spawn enemy "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="SpawnYSpinner">
+      <Properties>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+          <SpinnerModel initial="0" numberType="java.lang.Integer" stepSize="100" type="number"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Vertical position relative to screen which to spawn enemey"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="EditEntry">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x25ba;"/>
+        <Property name="toolTipText" type="java.lang.String" value="Edit Over Selected Entry"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EditEntryActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>
