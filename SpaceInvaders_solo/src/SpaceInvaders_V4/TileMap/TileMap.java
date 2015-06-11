@@ -11,6 +11,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * TileMap files were generated using Tiled Map Editor at
+ * http://www.mapeditor.org/. This class parses and implements a JSON export of
+ * map files
+ *
+ * @author Bee-Jay
+ */
 public class TileMap {
 
     //position
@@ -47,8 +54,11 @@ public class TileMap {
     private int numRowsToDraw;//(rowOffset+(Java2DGameWindow.G_HEIGHT/tileSize))
     private int numColsToDraw;
 
-    //class constructor 
-    //@param tileSize size on individual map tiles in px
+    /**
+     * Create new TileMap
+     *
+     * @param jsonRef reference to tileMap JSON file
+     */
     public TileMap(String jsonRef) {
         json = parseJSON(jsonRef);
 
@@ -62,8 +72,10 @@ public class TileMap {
 
     }
 
-    //load tileset image for tilemap
-    public void loadTiles() {
+    /**
+     * load tileSet image for tileMap
+     */
+    private void loadTiles() {
 
         //get image from spritesstore singlet
         tileSet = ResourceFactory.get().getSprite((String) ((JSONObject) ((JSONArray) json.get("tilesets")).get(0)).get("image"));
@@ -85,9 +97,10 @@ public class TileMap {
 
     }
 
-    //load map file
-    //@param ref path to map file
-    public void loadMap() {
+    /**
+     * load map file
+     */
+    private void loadMap() {
         //get layer object from JSONObject
         JSONObject layer = ((JSONObject) ((JSONArray) json.get("layers")).get(0));
         JSONArray data = (JSONArray) layer.get("data");//tileMap terrain values
@@ -114,8 +127,11 @@ public class TileMap {
 
     }
 
-    //move method based on timng system
-    //@param delta the amount of time passed in seconds
+    /**
+     * move method based on timing system
+     *
+     * @param delta the amount of time passed in seconds
+     */
     public void move(Double delta) {
         //bound check
         if (dx > 0 && x + dx * delta >= xmax) {
@@ -143,75 +159,112 @@ public class TileMap {
 
     }
 
-    //set horizontal speed
-    //@param dx speed in pixels/sec
+    /**
+     *
+     * @param dx speed in pixels/sec
+     */
     public void setHorizontalMovement(float dx) {
         this.dx = dx;
     }
 
-    //set vertical speed
-    //@param dy speed in pixels/sec
+    /**
+     * set vertical speed
+     *
+     * @param dy speed in pixels/sec
+     */
     public void setVerticalMovement(float dy) {
         this.dy = dy;
     }
 
-    //get Horizontal speed
-    //@return speed in pixels/sec
+    /**
+     * get Horizontal speed
+     *
+     * @return speed in pixels/sec
+     */
     public float getHorizontalMovement() {
         return dx;
     }
 
-    //get vertical speed
-    //@return speed in pixels/sec
+    /**
+     * get vertical speed
+     *
+     * @return speed in pixels/sec
+     */
     public float getVerticalMovement() {
         return dy;
     }
 
-    //getter methods
-    //@return horizontal map position
+    /**
+     *
+     * @return horizontal map position
+     */
     public float getX() {
         return x;
     }
 
-    //@return vertical map position
+    /**
+     *
+     * @return vertical map position
+     */
     public float getY() {
         return y;
     }
 
-    //@return map tileWidth in pixels
+    /**
+     *
+     * @return map tileWidth in pixels
+     */
     public int getTileWidth() {
         return xTileSize;
     }
 
-    //@return map tileHeight in pixels
+    /**
+     *
+     * @return map tileHeight in pixels
+     */
     public int getTileHeight() {
         return yTileSize;
     }
 
-    //@return map width in pixels
+    /**
+     *
+     * @return map width in pixels
+     */
     public int getWidth() {
         return width;
     }
 
-    //@return map height in pixels
+    /**
+     *
+     * @return map height in pixels
+     */
     public int getHeight() {
         return height;
     }
 
-    //@return number a rows in map
+    /**
+     *
+     * @return number a rows in map
+     */
     public int getNumRows() {
         return numRows;
     }
 
-    //@return number of cols in map
+    /**
+     *
+     * @return number of cols in map
+     */
     public int getNumCols() {
         return numCols;
     }
 
-    //set position of map
-    //there will generally be negative values to reach the parts of the map that are not on the screen
-    //@param x position
-    //@param y position
+    /**
+     * set position of map. there will generally be negative values to reach the
+     * parts of the map that are not on the screen
+     *
+     * @param x position
+     * @param y position
+     */
     public void setPosistion(float x, float y) {
         //set map coordinates
         this.x = x;
@@ -225,7 +278,10 @@ public class TileMap {
         rowOffset = (int) -this.y / yTileSize;
     }
 
-    //check map position against boundaries to prevent map from sliding off the screen
+    /**
+     * check map position against boundaries to prevent map from sliding off the
+     * screen
+     */
     private void fixBounds() {
         if (x < xmin) {
             x = xmin;
@@ -241,8 +297,10 @@ public class TileMap {
         }
     }
 
-    //draw map to graphics context
-    //@param graphics context
+    /**
+     * draw map to graphics context
+     *
+     */
     public void draw() {
         for (int row = rowOffset; row < rowOffset + numRowsToDraw; row++) {//for each row
             if (row >= numRows) {//bound check
@@ -271,8 +329,11 @@ public class TileMap {
         }
     }
 
-    //parse file reference into JSON object
-    //@param json path to JSON file
+    /**
+     * parse file reference into JSON object
+     *
+     * @param json path to JSON file
+     */
     private JSONObject parseJSON(String ref) {
         JSONParser parser = new JSONParser();
         JSONObject jObj = new JSONObject();

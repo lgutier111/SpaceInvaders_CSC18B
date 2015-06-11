@@ -3,6 +3,10 @@ package SpaceInvaders_V4.Entity;
 //player projectiles
 import SpaceInvaders_V4.GameState.GameState;
 
+/**
+ *
+ * @author Bee-Jay
+ */
 public class ShotEntity extends Entity {
 
     //projectile speed
@@ -18,11 +22,16 @@ public class ShotEntity extends Entity {
     //True if this shot hit something
     private boolean hit = false;
 
-    //Create a new entity to represent the enemy
-    // @param game The game in which the enemy is being created
-    // @param x The initial x location
-    // @param y The initial y location
-    // @param ref The reference to the sprite to show for the enemy   
+    /**
+     *
+     * @param game The game in which the enemy is being created
+     * @param dmg damage value to deal to enemies
+     * @param speed speed at pixels per second
+     * @param angle angle at which to launch projectile. 0 degrees at 6 o'clock
+     * @param x The initial x location
+     * @param y The initial y location
+     * @param ref The reference to the sprite to show for the enemy
+     */
     public ShotEntity(GameState game, int dmg, int speed, float angle, int x, int y, String ref) {
         super(x, y, ref);
         this.game = game;
@@ -35,7 +44,11 @@ public class ShotEntity extends Entity {
 
     }
 
-    //get damage value
+    /**
+     * get damage value
+     *
+     * @return
+     */
     public int getDmg() {
         return dmg;
     }
@@ -59,6 +72,11 @@ public class ShotEntity extends Entity {
 //        (ResourceFactory.get().getGameWindow()).fillRect(Color.GREEN, hitBox);
     }
 
+    /**
+     * check if bullet recently hit something
+     *
+     * @return true if projectile is consumed
+     */
     public boolean hit() {
         return hit;
     }
@@ -73,8 +91,11 @@ public class ShotEntity extends Entity {
         return super.collidesWith(other);
     }
 
-    //Notification that the player's ship has collided with something
-    // @param other The entity with which the shot has collided
+    /**
+     * Notification that the player's ship has collided with something
+     *
+     * @param other The entity with which the shot has collided
+     */
     @Override
     public void collidedWith(Entity other) {
         // prevents double kills, if we've already hit something, don't collide
@@ -89,7 +110,6 @@ public class ShotEntity extends Entity {
             } else {
                 // remove the affected entities
                 game.getRemovePlayerList().add(this);
-//                shots--;
                 hit = true;
             }
         }

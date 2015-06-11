@@ -6,7 +6,6 @@ import SpaceInvaders_V4.GameState.GameState;
 import SpaceInvaders_V4.Main.ResourceFactory;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +14,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ *
+ * @author Bee-Jay
+ */
 public class EntityMap {
 
     private float x;
@@ -30,6 +33,12 @@ public class EntityMap {
     private int fWidth;
     private int fHeight;
 
+    /**
+     *
+     * @param game current gameState
+     * @param map tileMap which to align enemies
+     * @param ref reference to ENEMIES JAON file using level editor class
+     */
     public EntityMap(GameState game, TileMap map, String ref) {
         this.map = map;
         mapHeight = map.getHeight();
@@ -39,7 +48,6 @@ public class EntityMap {
         fHeight = ResourceFactory.get().getGameWindow().getHeight();
 
         enemies = new EnemyList();
-        
 
         this.game = game;
         //call function to load enemy may data
@@ -49,10 +57,9 @@ public class EntityMap {
     private void loadData(String ref) {
         //load Json Object from file
         JSONref = parseJSON(ref);
-        
+
         //get enemy array from json object
         JSONArray jsonEnemyArray = (JSONArray) JSONref.get("EnemyList");
-//        System.out.println(jsonEnemyArray);
 
         //loop through array and add each index as in enemyEntry
         if (jsonEnemyArray.size() > 0) {
@@ -60,79 +67,56 @@ public class EntityMap {
                 JSONObject je = (JSONObject) jsonEnemyArray.get(i);
                 enemies.getList().add(new EnemyEntry(
                         this,
-                        (int) (long)je.get("spawnTrigger"),
+                        (int) (long) je.get("spawnTrigger"),
                         (String) je.get("enemyClassName"),
-                        (int) (long)je.get("rank"),
-                        (int) (long)je.get("spawnX"),
-                        (int) (long)je.get("spawnY"),
+                        (int) (long) je.get("rank"),
+                        (int) (long) je.get("spawnX"),
+                        (int) (long) je.get("spawnY"),
                         (String) je.get("spawnRef")
                 ));
-                
+
             }
         }
 
-
-//        enemies.getList().add(new EnemyEntry(
-//                this,//enemyMap
-//                700,//spawnTrigger
-//                "EnemyDart",//className
-//                1,//rank
-//                300,//spawnX
-//                -100,//spawnY
-//                ""//spawnRef
-//        ));
-//        enemies.getList().add(new EnemyEntry(
-//                this,//enemyMap
-//                700,//spawnTrigger
-//                "EnemyDart",//className
-//                1,//rank
-//                400,//spawnX
-//                -100,//spawnY
-//                ""//spawnRef
-//        ));
-//        enemies.getList().add(new EnemyEntry(
-//                this,//enemyMap
-//                700,//spawnTrigger
-//                "EnemyDart",//className
-//                1,//rank
-//                500,//spawnX
-//                -100,//spawnY
-//                ""//spawnRef
-//        ));
-//        enemies.getList().add(new EnemyEntry(
-//                this,//enemyMap
-//                700,//spawnTrigger
-//                "EnemyDart",//className
-//                1,//rank
-//                600,//spawnX
-//                -100,//spawnY
-//                ""//spawnRef
-//        ));
     }
 
+    /**
+     *
+     * @return
+     */
     public float getX() {
         return x;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getMapHeight() {
         return mapHeight;
     }
 
+    /**
+     *
+     * @return
+     */
     public GameState getGame() {
         return game;
     }
 
-    //upate EntityMap
+    /**
+     * update EntityMap
+     *
+     * @param delta
+     */
     public void update(double delta) {
         //sync to tilemap position
         this.x = map.getX();
         this.y = map.getY();
 
-//        System.out.println("Trigger lv :" + (y + mapHeight));
-
         //check enemy list to see if there anre any enmies to spawn
         for (int i = 0; i < enemies.getList().size(); i++) {
-            //;ist of entries to remove once spawned
+            //list of entries to remove once spawned
             ArrayList removeList = new ArrayList();
 
             //if the top of the frame reaches the spawn trigger
@@ -143,7 +127,6 @@ public class EntityMap {
                 //spawn enemy enyty and add it to the game EnemyArrayList
                 EnemyEntity enemy = entry.spawn();
                 game.getEnemyEntities().add(enemy);
-//                System.out.println("Pop "+enemy.toString());
 
                 //add to entry removal list
                 removeList.add(entry);
@@ -156,6 +139,9 @@ public class EntityMap {
 
     }
 
+    /**
+     *
+     */
     public void draw() {
 
         // cycle round drawing all the enemy entities we have in the game
@@ -184,7 +170,7 @@ public class EntityMap {
 //enemylist class
 class EnemyList {
 
-    private ArrayList<EnemyEntry> list;
+    private final ArrayList<EnemyEntry> list;
 
     public EnemyList() {
         list = new ArrayList<>();
@@ -195,4 +181,3 @@ class EnemyList {
     }
 
 }
-

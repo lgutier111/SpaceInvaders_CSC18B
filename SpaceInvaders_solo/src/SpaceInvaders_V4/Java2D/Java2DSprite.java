@@ -2,6 +2,7 @@ package SpaceInvaders_V4.Java2D;
 
 import SpaceInvaders_V4.Util.Sprite;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
 
 public class Java2DSprite implements Sprite {
 
@@ -58,5 +59,10 @@ public class Java2DSprite implements Sprite {
     @Override
     public void draw(int x, int y) {
         window.getDrawGraphics().drawImage(image, x, y, null);
+    }
+    
+    @Override
+    public void drawRotate(AffineTransform tra){
+        window.getDrawGraphics().drawImage(image, tra, null);
     }
 }

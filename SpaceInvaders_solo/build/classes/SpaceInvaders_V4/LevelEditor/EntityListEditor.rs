@@ -1,2 +1,0 @@
-SpaceInvaders_V4.LevelEditor.EntityListEditor
-SpaceInvaders_V4.LevelEditor.Entry

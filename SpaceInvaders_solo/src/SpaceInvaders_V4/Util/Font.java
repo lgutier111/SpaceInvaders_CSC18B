@@ -5,12 +5,13 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-//this class manages a bitmap font built with an image grid of 16 x 16 with 
-//ascii values ranging from 0-255
-//optional metrics files are 16 lines of 8 groups of 4digit hex values delimted 
-//by spaces, each 2digit hex equalling char width in pixels
-//bitmap and metric files generateg using F2Ibuilder http://f2ibuilder.dukitan.com/  
-//Note: F2I metrics files need to be converted to UTF-8 encoding before use 
+/*this class manages a bitmap font built with an image grid of 16 x 16 with 
+ *ascii values ranging from 0-255
+ *optional metrics files are 16 lines of 8 groups of 4digit hex values delimted 
+ *by spaces, each 2digit hex equalling char width in pixels
+ *bitmap and metric files generateg using F2Ibuilder http://f2ibuilder.dukitan.com/  
+ *Note: F2I metrics files need to be converted to UTF-8 encoding before use 
+ */
 public class Font {
 
     //spriteMap for this font
@@ -48,9 +49,12 @@ public class Font {
         }
     }
 
-    //constructor method
-    //@param ref reference to spriteMap image file
-    //@param met reference path to metrics dat file 
+    /**
+     * constructor method
+     *
+     * @param ref reference to spriteMap image file
+     * @param met reference path to metrics dat file
+     */
     public Font(String ref, String met) {
         this.spriteMap = ResourceFactory.get().getSprite(ref);
         metrics = new int[256];
@@ -98,8 +102,12 @@ public class Font {
         }
     }
 
-    //get the pixel width of given string
-    //@param text string
+    /**
+     * get the pixel width of given string
+     *
+     * @param text string
+     * @return
+     */
     public int getStringWidth(String text) {
         if (metrics == null) {
             return text.length() * tileWidth;
@@ -117,6 +125,13 @@ public class Font {
         return tileHeight;
     }
 
+    /**
+     * draw string to screen using image sprite sheet
+     *
+     * @param txt string to draw
+     * @param x horizontal position
+     * @param y vertical position
+     */
     public void draw(String txt, int x, int y) {
         int len = 0;
 

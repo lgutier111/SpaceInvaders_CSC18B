@@ -9,6 +9,10 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.toRadians;
 
+/**
+ *
+ * @author Bee-Jay
+ */
 public class PowerUp extends Item {
 
     private GameState game;
@@ -26,6 +30,13 @@ public class PowerUp extends Item {
     private int speed;
     private float incrementAngle;
 
+    /**
+     *
+     * @param game
+     * @param x
+     * @param y
+     * @param ref
+     */
     public PowerUp(GameState game, int x, int y, String ref) {
         super(x, y, "resources/sprites/player/powerUps.png");
         this.type = Item.BULLET;
@@ -51,7 +62,7 @@ public class PowerUp extends Item {
         speed = 150;
         type = (int) (Math.random()*2); 
         
-        incrementAngle = Math.random()>0.5?10:-10;
+        incrementAngle = Math.random()>0.5?2:-2;
         
     }
 
@@ -76,12 +87,10 @@ public class PowerUp extends Item {
         sprite = frames[currentRow][currentCol];
         if (ticks > lastTick) {
 
-            if (ticks < 50 && speed > 50) {
-                speed -= 4;
-            } else if ((ticks >= 50 && ticks < 100)&& speed < 250) {
-                speed += 4;
-            }else if(ticks == 100){
-                ticks = 0;
+            if (ticks%100 < 50 && speed > 100) {
+                speed -= 3;
+            } else if (ticks%100 >= 50 && speed < 250) {
+                speed += 3;
             }
             angle += incrementAngle;
 
@@ -103,7 +112,7 @@ public class PowerUp extends Item {
 
         if (x + (delta * (dx + xShift)) > ResourceFactory.get().getGameWindow().getWidth()-(sprite.getWidth()/2) ) {
             x = ResourceFactory.get().getGameWindow().getWidth()-(sprite.getWidth()/2);
-            angle +=incrementAngle*3;
+            angle +=180;
         } else if (x + (delta * (dx + xShift)) < 0+(sprite.getWidth()/2)) {
             x = 0+(sprite.getWidth()/2);
             angle +=180;
@@ -114,7 +123,7 @@ public class PowerUp extends Item {
 
         if (y + (delta * dy) > ResourceFactory.get().getGameWindow().getHeight()-(sprite.getHeight()/2)) {
             y = ResourceFactory.get().getGameWindow().getHeight()-(sprite.getHeight()/2);
-            angle +=incrementAngle*3;
+            angle +=180;
         } else if (y + (delta * dy) < 0+(sprite.getHeight()/2) ) {
             y = 0+(sprite.getHeight()/2);
             angle +=180;

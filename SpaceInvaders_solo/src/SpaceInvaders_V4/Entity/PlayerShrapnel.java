@@ -6,6 +6,10 @@ import SpaceInvaders_V4.Util.Sprite;
 import SpaceInvaders_V4.Util.SystemTimer;
 import java.awt.Color;
 
+/**
+ *
+ * @author Bee-Jay
+ */
 public class PlayerShrapnel extends ShotEntity {
 
     private Sprite[][] frames;
@@ -14,6 +18,16 @@ public class PlayerShrapnel extends ShotEntity {
     private int currentCol;
     private double lastFrameChange;
     
+    /**
+     *
+     * @param game
+     * @param dmg
+     * @param speed
+     * @param angle
+     * @param x
+     * @param y
+     * @param ref
+     */
     public PlayerShrapnel(GameState game, int dmg, int speed, float angle, int x, int y, String ref) {
         super(game, dmg, speed, angle, x, y, "resources/sprites/player/Player1Shrapnel.png");
         

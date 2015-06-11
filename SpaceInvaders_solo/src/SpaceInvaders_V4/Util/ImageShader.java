@@ -2,12 +2,16 @@ package SpaceInvaders_V4.Util;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-/*
+/**
 This code was found from http://stackoverflow.com/questions/14225518/tinting-image-in-java-improvement
 Original Author is unknown
 */
 public class ImageShader {
     
+    /**
+     *
+     * @return
+     */
     public static GraphicsConfiguration getGraphicsConfiguration() {
         return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
     }
@@ -18,6 +22,10 @@ public class ImageShader {
         return image;
     }
 
+    /**
+     *
+     * @param g2d
+     */
     public static void applyQualityRenderingHints(Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -29,6 +37,13 @@ public class ImageShader {
         g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
     }
 
+    /**
+     *
+     * @param imgSource
+     * @param color
+     * @param alpha
+     * @return
+     */
     public static BufferedImage generateMask(BufferedImage imgSource, Color color, float alpha) {
         int imgWidth = imgSource.getWidth();
         int imgHeight = imgSource.getHeight();
@@ -47,6 +62,12 @@ public class ImageShader {
         return imgMask;
     }
 
+    /**
+     *
+     * @param master
+     * @param tint
+     * @return
+     */
     public BufferedImage tint(BufferedImage master, BufferedImage tint) {
         int imgWidth = master.getWidth();
         int imgHeight = master.getHeight();

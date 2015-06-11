@@ -2,56 +2,134 @@ package SpaceInvaders_V4.Entity;
 
 import SpaceInvaders_V4.GameState.GameState;
 import SpaceInvaders_V4.Main.ResourceFactory;
+import SpaceInvaders_V4.Users.Score;
 import SpaceInvaders_V4.Util.Sprite;
 import SpaceInvaders_V4.Util.SystemTimer;
 import java.awt.Color;
 import java.awt.Point;
 import static java.lang.Math.*;
 
+/**
+ *
+ * @author Bee-Jay
+ */
 public class EnemyEntity extends Entity {
 
-    //the game in which the enemy exists
+
+    /**
+     *the game in which the enemy exists
+     */
     protected GameState game;
 
     //enemy stats
+    /**
+     *Enemy maximum health
+     */
     protected int maxHealth;
+
+    /**
+     *Enemy current health
+     */
     protected int health;
-    //for dificulty scaling
+ 
+
+    /**
+     *scaling factory for enemy health and score value
+     */
     protected int rank;
-    //for scoring system
+
+
+    /**
+     * scoring value
+     */
     protected int value;
 
-    //entity conditions
+
+    /**
+     * collision condition
+     */
     protected boolean hit;
+
+    /**
+     *Enemy death status
+     */
     protected boolean dead;
 
     //origin point on entity for bullet creation 
+    /**
+     * horizontal origin for projectiles
+     */
     protected int gunX;
+
+    /**
+     * vertical origin for projectiles
+     */
     protected int gunY;
 
     //timer variables
     final double startTime;//referece point from creation of Entity
-    protected double elapsed;//time since creation
-    protected double ticker;//breaks time into tick units for scripting (approx 25 ticks/sec)
-    protected int moveTicks;//ticker for movement scripts
-    protected int lastMove;//ticker for movement scripts
-    protected int shotTicks;//ticker for shooting scripts
+
+    /**
+     * time since creation
+     */
+    protected double elapsed;
+
+    /**
+     * breaks time into tick units for scripting (approx 25 ticks/sec)
+     */
+    protected double ticker;
+
+    /**
+     * ticker for movement scripts (approx 25 ticks/sec)
+     */
+    protected int moveTicks;
+
+    /**
+     * ticker tracker for movement scripts, use if(moveTicks >
+     * lastMove){lastMove = moveTicks;} to ensure single execution for each tick
+     */
+    protected int lastMove;
+
+    /**
+     * ticker for shooting scripts (approx 25 ticks/sec)
+     */
+    protected int shotTicks;
+
+    /**
+     * ticker tracker for shooting scripts, use if(shotTicks >
+     * lastShot){lastShot = shotTicks;} to ensure single execution for each tick
+     */
     protected int lastShot;//ticker for shooting scripts
 
-    //scripting vatiables
-    protected int pattern;// optional variable for setting up conditionals for multiple behavior patterns in a single enemy class 
-    protected float angle;//direction of movement
-    protected int speed;//speed in pixels per second
+    /**
+     * direction of movement
+     */
+    protected float angle;
 
-    //player entity for targeting
+    /**
+     * speed in pixels per second
+     */
+    protected int speed;
+
+    /**
+     * Target coordinated for shooting
+     */
     protected Point target;
+
+    /**
+     * angle from shooting origin to target coordinates
+     */
     protected int targetAngle;
 
-    //Create a new entity to represent the enemy
-    // @param game The game in which the enemy is being created
-    // @param x The initial x location
-    // @param y The initial y location
-    // @param ref The reference to the sprite to show for the enemy
+    /**
+     * Create a new entity to represent the enemy
+     *
+     * @param game game The game in which the enemy is being created
+     * @param rank
+     * @param x The initial x location
+     * @param y The initial y location
+     * @param ref The reference to the sprite image file to show for the enemy
+     */
     public EnemyEntity(GameState game, int rank, int x, int y, String ref) {
         super(x, y, ref);
         this.game = game;
@@ -89,14 +167,14 @@ public class EnemyEntity extends Entity {
 
     @Override
     public void doLogic() {
-           angle = (angle+360) % 360;//bind range between 0 and 360 
+        angle = (angle + 360) % 360;//bind range between 0 and 360 
 
         //set target to random player position if one exists, else tart is straight down
         if (game.getPlayers().size() > 0) {
             Entity player = (Entity) game.getPlayers().get((int) (random() * (game.getPlayers().size() - 1)));
             target.setLocation(player.getX(), player.getY());
         } else {
-            target.setLocation(x, y + 1);
+            target.setLocation(x, y + 30);
         }
 
         elapsed = SystemTimer.getTime() - startTime;
@@ -115,9 +193,12 @@ public class EnemyEntity extends Entity {
         this.gunY = (int) y + (this.sprite.getHeight() / 2);
     }
 
-    //shoot at angle
-    //@param int projectile speed in px/sec
-    //@param int angle in degrees (0deg at 6 o'clock)
+    /**
+     * shoot at angle relative to self
+     *
+     * @param speed projectile speed in pix/sec
+     * @param deg angle in degrees (0 degrees at 6 o'clock)
+     */
     public void shoot(int speed, int deg) {
         EnemyShotEntity shot = new EnemyShotEntity(this.game, gunX, gunY, "resources/sprites/enemy/enemyShot1a.png");
         game.getEnemyEntities().add(shot);
@@ -125,10 +206,14 @@ public class EnemyEntity extends Entity {
         shot.setVerticalMovement((float) (speed * cos(toRadians(deg))));
     }
 
-    //target at angle to entity
-    //@param int projectile speed in px/sec
-    //@param Entity entity instance
-    //@param int angle in degrees to adjust shot. Positive being ccw, negative being cw, 0 being on target
+    /**
+     * shoot at angle relative to target
+     *
+     * @param speed projectile speed in px/sec
+     * @param point coordinated to target entity
+     * @param deg angle in degrees to adjust shot. Positive being ccw, negative
+     * being cw, 0 being on target
+     */
     public void shoot(int speed, Point point, int deg) {
         //angle to target in radians
         float rads = (float) (atan2((point.getX() - gunX), (point.getY() - gunY)));
@@ -141,48 +226,11 @@ public class EnemyEntity extends Entity {
         shot.setVerticalMovement((float) (speed * cos(rads + toRadians(deg))));
     }
 
-    //target entity at 45deg increments
-    //@param int projectile speed in px/sec
-    //@param Entity entity instance
-    //@param boolean dummy value, true or false it's just used to select this overloaded method.
-    public void shoot(int speed, Point point, boolean dummy) {
-
-        //angle to target in radians
-        float rads = (float) (atan2(point.getX() - gunX, point.getY() - gunY));
-        int deg;
-
-        //set angle to nearest 45deg increment
-        if (rads >= toRadians(0) && rads < toRadians(22.5)) {
-            deg = 0;
-        } else if (rads >= toRadians(22.5) && rads < toRadians(67.5)) {
-            deg = 45;
-        } else if (rads >= toRadians(67.5) && rads < toRadians(112.5)) {
-            deg = 90;
-        } else if (rads >= toRadians(112.5) && rads < toRadians(157.5)) {
-            deg = 135;
-        } else if (rads >= toRadians(157.5) && rads <= toRadians(181)) {
-            deg = 180;
-        } else if (rads >= toRadians(-181) && rads < toRadians(-157.5)) {
-            deg = 180;
-        } else if (rads >= toRadians(-157.5) && rads < toRadians(-112.5)) {
-            deg = 225;
-        } else if (rads >= toRadians(-112.5) && rads < toRadians(-67.5)) {
-            deg = 270;
-        } else if (rads >= toRadians(-67.5) && rads < toRadians(-22.5)) {
-            deg = 315;
-        } else {
-            deg = 0;
-        }
-
-        //spawn bullet at bottom middle of ship sprite (or wherever the guns will be)
-        EnemyShotEntity shot = new EnemyShotEntity(this.game, gunX, gunY, "resources/sprites/enemy/enemyShot1a.png");
-        game.getEnemyEntities().add(shot);
-        //target player ship. scale diagonal shotSpeed using trig functions 
-        shot.setHorizontalMovement((float) (speed * Math.sin(toRadians(deg))));
-        shot.setVerticalMovement((float) (speed * Math.cos(toRadians(deg))));
-    }
-
-    //is it dead?
+    /**
+     * is it dead?
+     *
+     * @return true if entity is in death sequence
+     */
     public boolean isDead() {
         return dead;
     }
@@ -223,6 +271,8 @@ public class EnemyEntity extends Entity {
             // remove the affected entities
             if (health <= 0) {
                 dead = true;
+                Score.addKill();
+                Score.addScore(value);
                 game.getRemoveEnemyList().add(this);
 
             }

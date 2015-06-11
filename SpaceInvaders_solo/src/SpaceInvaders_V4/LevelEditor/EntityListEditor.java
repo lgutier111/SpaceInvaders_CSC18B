@@ -1,6 +1,9 @@
 package SpaceInvaders_V4.LevelEditor;
 
+import SpaceInvaders_V4.Main.ResourceFactory;
 import SpaceInvaders_V4.TileMap.EntityMap;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -29,7 +32,7 @@ public class EntityListEditor extends javax.swing.JFrame {
     //list of enemy entries
     private ArrayList<Entry> enemyList;
     //list of available class names
-    private final String[] enemies = {"EnemyDart", "EnemySwarmer", "EnemyWasp"};
+    private final String[] enemies = {"EnemyDart", "EnemySwarmer", "EnemyWasp", "EnemyBossOgre"};
 
     //constructory method
     public EntityListEditor() {
@@ -41,7 +44,16 @@ public class EntityListEditor extends javax.swing.JFrame {
 
         //init components
         initComponents();
-        
+                setLocationRelativeTo(null);
+
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                close();
+            }
+
+        });
         //init arraylist and combobox
         enemyList = new ArrayList<>();
         for (String className : enemies) {
@@ -83,7 +95,6 @@ public class EntityListEditor extends javax.swing.JFrame {
         MenuSave = new javax.swing.JMenuItem();
         MenuOpen = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Enemy List Editor");
 
         DisplayList.setFont(new java.awt.Font("Courier New", 0, 11)); // NOI18N
@@ -448,34 +459,42 @@ public class EntityListEditor extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EntityListEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        
-        //</editor-fold>
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(EntityListEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new EntityListEditor().setVisible(true);
+//            }
+//        });
+//    }
+//    
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EntityListEditor().setVisible(true);
-            }
-        });
+   //go back to game window
+    private void close() {
+        setVisible(false);
+        ResourceFactory.get().getGameWindow().setVisable(true);
+        ResourceFactory.get().getGameWindow().requestFocus();
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddEntry;
     private javax.swing.JComboBox ClassNameComboBox;
@@ -501,6 +520,8 @@ public class EntityListEditor extends javax.swing.JFrame {
     private javax.swing.JSpinner SpawnYSpinner;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    
 }
 
 //entry class

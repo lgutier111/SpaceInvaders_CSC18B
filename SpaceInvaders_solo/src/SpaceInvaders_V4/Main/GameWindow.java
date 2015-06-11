@@ -14,7 +14,13 @@ public interface GameWindow {
     //@param y vertical resolution
     public void setResolution(int x, int y);
 
- 
+     //set frame visibility
+    //@param frame visibility
+    public void setVisable(boolean bool);
+    
+    //request frame focus
+    public void requestFocus();
+    
     //get average framerate
     //@returns float of average framerate
     public float getFPS();

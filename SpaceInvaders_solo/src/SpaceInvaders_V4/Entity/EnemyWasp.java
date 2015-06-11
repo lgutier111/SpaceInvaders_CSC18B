@@ -2,11 +2,16 @@ package SpaceInvaders_V4.Entity;
 
 import SpaceInvaders_V4.GameState.GameState;
 import SpaceInvaders_V4.Main.ResourceFactory;
+import SpaceInvaders_V4.Users.Score;
 import SpaceInvaders_V4.Util.Sprite;
 import SpaceInvaders_V4.Util.SystemTimer;
 import java.awt.Color;
 import static java.lang.Math.*;
 
+/**
+ *
+ * @author Bee-Jay
+ */
 public class EnemyWasp extends EnemyEntity {
 
     private Sprite[][] bodyFrames;
@@ -23,6 +28,14 @@ public class EnemyWasp extends EnemyEntity {
     private double lastFrameChange = 0;
     private double deadTimer;
 
+    /**
+     *
+     * @param game
+     * @param rank
+     * @param x
+     * @param y
+     * @param ref
+     */
     public EnemyWasp(GameState game, int rank, int x, int y, String ref) {
         super(game, rank, x, y, ref.equals("g")?"resources/sprites/enemy/wasp_green.png":"resources/sprites/enemy/wasp_brown.png");
 
@@ -75,116 +88,52 @@ public class EnemyWasp extends EnemyEntity {
                 float tangle = (((float) toDegrees(atan2((target.getX() - x), (target.getY() - x))) + 360) % 360);
 
                 if (tangle < 11.25f || tangle >= 348.75f) {
-//                    if (currentCol >= 1 && currentCol <= 8) {
-//                        currentCol--;
-//                    } else if (currentCol >= 9 && currentCol <= 15) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 0;
                 } else if (tangle >= 11.25f && tangle < 33.75f) {
-//                    if (currentCol >= 0 && currentCol <= 7) {
-//                        currentCol--;
-//                    } else if (currentCol >= 8 && currentCol <= 14) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 15;
                 } else if (tangle >= 33.75f && tangle < 56.25f) {
-//                    if (currentCol >= 15 || currentCol <= 6) {
-//                        currentCol--;
-//                    } else if (currentCol >= 7 && currentCol <= 13) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 14;
                 } else if (tangle >= 56.25f && tangle < 78.75f) {
-//                    if (currentCol >= 14 || currentCol <= 5) {
-//                        currentCol--;
-//                    } else if (currentCol >= 6 && currentCol <= 12) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 13;
                 } else if (tangle >= 78.75f && tangle < 101.25f) {
-//                    if (currentCol >= 13 || currentCol <= 4) {
-//                        currentCol--;
-//                    } else if (currentCol >= 5 && currentCol <= 11) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 12;
                 } else if (tangle >= 101.25f && tangle < 123.75f) {
-//                    if (currentCol >= 12 || currentCol <= 3) {
-//                        currentCol--;
-//                    } else if (currentCol >= 4 && currentCol <= 10) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 11;
                 } else if (tangle >= 123.75f && tangle < 146.25f) {
-//                    if (currentCol >= 11 || currentCol <= 2) {
-//                        currentCol--;
-//                    } else if (currentCol >= 3 && currentCol <= 9) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 10;
                 } else if (tangle >= 146.25f && tangle < 168.75f) {
-//                    if (currentCol >= 10 || currentCol <= 1) {
-//                        currentCol--;
-//                    } else if (currentCol >= 2 && currentCol <= 8) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 9;
                 } else if (tangle >= 168.75f && tangle < 191.25f) {
-//                    if (currentCol >= 9 || currentCol <= 0) {
-//                        currentCol--;
-//                    } else if (currentCol >= 1 && currentCol <= 7) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 8;
                 } else if (tangle >= 191.25f && tangle < 213.75f) {
-//                    if (currentCol >= 8 && currentCol <= 15) {
-//                        currentCol--;
-//                    } else if (currentCol >= 0 && currentCol <= 6) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 7;
                 } else if (tangle >= 213.75f && tangle < 235.25f) {
-//                    if (currentCol >= 7 && currentCol <= 14) {
-//                        currentCol--;
-//                    } else if (currentCol >= 15 || currentCol <= 5) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 6;
                 } else if (tangle >= 235.25f && tangle < 258.75f) {
-//                    if (currentCol >= 6 && currentCol <= 13) {
-//                        currentCol--;
-//                    } else if (currentCol >= 14 || currentCol <= 4) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 5;
                 } else if (tangle >= 258.75f && tangle < 281.25f) {
-//                    if (currentCol >= 5 && currentCol <= 12) {
-//                        currentCol--;
-//                    } else if (currentCol >= 13 || currentCol <= 3) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 4;
                 } else if (tangle >= 281.25f && tangle < 303.75f) {
-//                    if (currentCol >= 4 && currentCol <= 11) {
-//                        currentCol--;
-//                    } else if (currentCol >= 12 || currentCol <= 2) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 3;
                 } else if (tangle >= 303.75f && tangle < 326.25) {
-//                    if (currentCol >= 3 && currentCol <= 10) {
-//                        currentCol--;
-//                    } else if (currentCol >= 11 || currentCol <= 1) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 2;
                 } else if (tangle >= 326.25 && tangle < 348.75) {
-//                    if (currentCol >= 2 && currentCol <= 9) {
-//                        currentCol--;
-//                    } else if (currentCol >= 10 || currentCol <= 0) {
-//                        currentCol++;
-//                    }
+
                     currentCol = 1;
                 }
                 currentRow = 0;
@@ -203,9 +152,9 @@ public class EnemyWasp extends EnemyEntity {
                 currentRow = 1;
                 currentCol = (currentCol + 1) % 8;
                 hitBox.setLocation(-500, -500);
-                hitBox.setSize(1, 1);
+                hitBox.setSize(0, 0);
             } else {
-                hitBox.setSize(1, 1);
+                hitBox.setSize(0, 0);
                 hitBox.setLocation(-500, -500);
                 game.getRemoveEnemyList().add(this);
                 MedExplosion me = new MedExplosion(game, (int) x, (int) y, "long");
@@ -248,20 +197,16 @@ public class EnemyWasp extends EnemyEntity {
 
             //shootScripts
             if (shotTicks > lastShot) {
-                if(shotTicks % 150 == 100){
-                    shoot(175 + 20 * rank, target, -24);
-                }else if(shotTicks % 150 == 102){
-                    shoot(175 + 20 * rank, target, -16);
-                }else if(shotTicks % 150 == 104){
-                    shoot(175 + 20 * rank, target, -8);
-                }else if(shotTicks % 150 == 106){
+                if(shotTicks % 100 == 50){
+                    shoot(175 + 20 * rank, target, -20);
+                }else if(shotTicks % 100 == 53){
+                    shoot(175 + 20 * rank, target, -10);
+                }else if(shotTicks % 100 == 56){
                     shoot(175 + 20 * rank, target, 0);
-                }else if(shotTicks % 150 == 108){
-                    shoot(175 + 20 * rank, target, 8);
-                }else if(shotTicks % 150 == 110){
-                    shoot(175 + 20 * rank, target, 16);
-                }else if(shotTicks % 150 == 112){
-                    shoot(175 + 20 * rank, target, 24);
+                }else if(shotTicks % 100 == 59){
+                    shoot(175 + 20 * rank, target, 10);
+                }else if(shotTicks % 100 == 62){
+                    shoot(175 + 20 * rank, target, 20);
                 }
                 
                 lastShot = shotTicks;
@@ -304,6 +249,8 @@ public class EnemyWasp extends EnemyEntity {
             // remove the affected entities
             if (health <= 0) {
                 dead = true;
+                Score.addKill();
+                Score.addScore(value);
                 deadTimer = SystemTimer.getTime() + 1;
                 MedExplosion me = new MedExplosion(game, (int) x, (int) y, "");
                 me.setHorizontalMovement(dx * 1f);

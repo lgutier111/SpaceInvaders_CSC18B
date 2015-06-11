@@ -1,9 +1,12 @@
 package SpaceInvaders_V4.GameState;
 
+import SpaceInvaders_V4.LevelEditor.EntityListEditor;
 import SpaceInvaders_V4.Main.GameWindow;
 import SpaceInvaders_V4.Util.Sprite;
 import SpaceInvaders_V4.Main.ResourceFactory;
 import SpaceInvaders_V4.TileMap.Background;
+import SpaceInvaders_V4.Users.Score;
+import SpaceInvaders_V4.Users.UserControlPanel;
 import SpaceInvaders_V4.Util.Font;
 import java.awt.event.KeyEvent;
 
@@ -15,11 +18,14 @@ public class MenuState extends GameState {
     //background image class
     private Background bg;
 
+    private UserControlPanel ucp = null;
+    private EntityListEditor ele = null;
+
     //menu selection
     private int currentChoice = 0;
     private String[] option = {
         "Start",
-        "High Scores",
+        "User Control Panel",
         "Level Editor",
         "Quit"
     };
@@ -31,8 +37,10 @@ public class MenuState extends GameState {
     //title image
     Sprite logo = ResourceFactory.get().getSprite("resources/title/title.png");//use sprite store
 
-    //constructor method
-    //@param GameStateManager
+    /**
+     * constructor method 
+     * @param gsm current GameStateMabager
+     */
     public MenuState(GameStateManager gsm) {
         this.gsm = gsm;
         //
@@ -46,14 +54,19 @@ public class MenuState extends GameState {
         init();
     }
 
-    //initialize gamestate
+    /**
+     * initialize gamestate
+     */
     @Override
     public void init() {
 
     }
 
-    //update gamestate
-    //@param delta timing vector
+    /**
+     * update gameState
+     *
+     * @param delta timing vector
+     */
     @Override
     public void gameUpdate(double delta) {
 
@@ -61,8 +74,9 @@ public class MenuState extends GameState {
 
     }
 
-    //render inamge buffer (bottom later first, top layer last)
-    //@param game graphics context
+    /**
+     * render image buffer (bottom later first, top layer last)
+     */
     @Override
     public void gameRender() {
         //background
@@ -86,17 +100,31 @@ public class MenuState extends GameState {
 
     }
 
-    //evoke selection
+    /**
+     * evoke menu selection
+     */
     private void select() {
         if (currentChoice == 0) {
             //start
             gsm.setState(GameStateManager.LEVEL1STATE);
+            Score.reset();
         }
         if (currentChoice == 1) {
-            //Scores
+            //user login
+            if (ucp == null) {
+                ucp = new UserControlPanel();
+            }
+            ResourceFactory.get().getGameWindow().setVisable(false);
+            ucp.setVisible(true);
+            ucp.requestFocus();
         }
         if (currentChoice == 2) {
-            //options
+            //level editor
+            if (ele == null) {
+                ele = new EntityListEditor();
+            }
+            ele.setVisible(true);
+            ele.requestFocus();
         }
         if (currentChoice == 3) {
             //Quit
@@ -104,8 +132,9 @@ public class MenuState extends GameState {
         }
     }
 
-    //keypress functions
-    //@param keyevent keycode
+    /*keypress functions
+     *@param keyevent keycode
+     */
     @Override
     public void keyPressed(int k) {
         if (k == KeyEvent.VK_ENTER) {
@@ -127,13 +156,21 @@ public class MenuState extends GameState {
 
     }
 
-    //keyrelease functions
-    //@param keyevent keycode
+    /**
+     * keyRelease functions
+     *
+     * @param k keyCode
+     */
     @Override
     public void keyReleased(int k) {
 
     }
 
+    /**
+     * KeyTypes Function
+     *
+     * @param k keyCode
+     */
     @Override
     public void keyTyped(int k) {
 

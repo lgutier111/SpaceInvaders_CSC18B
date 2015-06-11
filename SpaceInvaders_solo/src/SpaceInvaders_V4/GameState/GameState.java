@@ -5,26 +5,92 @@ import SpaceInvaders_V4.Util.SystemTimer;
 import java.util.ArrayList;
 
 //abstract class for gamestates
+
+/**
+ *
+ * @author Bee-Jay
+ */
 public abstract class GameState {
 
+    /**
+     *
+     */
     protected GameStateManager gsm;
+
+    /**
+     *
+     */
     protected boolean playerIsAlive;
+
+    /**
+     *
+     */
     protected double respawnTimer;
+
+    /**
+     *
+     */
     protected boolean playerControl;
+
+    /**
+     *
+     */
     protected double controlTimer;
     
-    protected boolean up, down, left, right, trigger;
+    protected boolean up,
 
+    /**
+     *
+     */
+    down,
+
+    /**
+     *
+     */
+    left,
+
+    /**
+     *
+     */
+    right,
+
+    /**
+     *
+     */
+    trigger;
+
+    /**
+     *
+     */
     public abstract void init();
 
+    /**
+     *
+     * @param delta
+     */
     public abstract void gameUpdate(double delta);
 
+    /**
+     *
+     */
     public abstract void gameRender();
 
+    /**
+     *
+     * @param k
+     */
     public abstract void keyPressed(int k);
 
+    /**
+     *
+     * @param k
+     */
     public abstract void keyReleased(int k);
 
+    /**
+     *
+     * @param k
+     */
     public abstract void keyTyped(int k);
 
     // The list of all the entities
@@ -34,22 +100,42 @@ public abstract class GameState {
     private final ArrayList<Entity> items = new ArrayList();
     private final ArrayList<Entity> effects = new ArrayList();
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Entity> getPlayerEntities() {
         return playerEntities;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Entity> getEnemyEntities() {
         return enemyEntities;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Entity> getPlayers() {
         return players;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Entity> getItems() {
         return items;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Entity> getEffects() {
         return effects;
     }
@@ -61,26 +147,49 @@ public abstract class GameState {
     private final ArrayList removeItems = new ArrayList();
     private final ArrayList removeEffects = new ArrayList();
 
+    /**
+     *
+     * @return
+     */
     public ArrayList getRemoveEnemyList() {
         return removeEnemyList;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList getRemovePlayerList() {
         return removePlayerList;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList getRemovePlayers() {
         return removePlayers;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList getRemoveItems() {
         return removeItems;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList getRemoveEffects() {
         return removeEffects;
     }
 
+    /**
+     *
+     */
     public void notifyPlayerDeath(){
        playerControl = false;
        playerIsAlive = false;
@@ -89,11 +198,19 @@ public abstract class GameState {
        
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean[] getKeys(){
         boolean[] keys ={up, down, left, right, trigger};
         return keys;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean getPlayerControl(){
         return playerControl;
     }

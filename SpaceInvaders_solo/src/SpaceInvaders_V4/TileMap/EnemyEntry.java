@@ -6,7 +6,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author Bee-Jay
+ */
 public class EnemyEntry {
+
     private EntityMap enemyMap;
     private int spawnTrigger;
     private int rank;
@@ -15,15 +20,18 @@ public class EnemyEntry {
     private String spawnRef;
     private String enemyClassName;
 
-    
-    //constructor class
-    //@param EntityMap instance into which to spawn entities
-    //@param spawnTrigger distance from bottom of map that will trigger spawn of entity
-    //@param rank of entity
-    //@param spawnX horizontal position of entity spawn
-    //@param spawnY vertical position of entity spawn
-    //@param spawnRef special Flags
-    //@param enemyClassName class name of entity to spawn
+    /**
+     * constructor class
+     *
+     * @param EntityMap instance into which to spawn entities
+     * @param spawnTrigger distance from bottom of map that will trigger spawn
+     * of entity
+     * @param rank of entity
+     * @param spawnX horizontal position of entity spawn
+     * @param spawnY vertical position of entity spawn
+     * @param spawnRef special Flags
+     * @param enemyClassName class name of entity to spawn
+     */
     EnemyEntry(EntityMap enemyMap, int spawnTrigger, String enemyClassName, int rank, int spawnX, int spawnY, String spawnRef) {
         this.enemyMap = enemyMap;
         this.spawnTrigger = spawnTrigger > enemyMap.getMapHeight() ? enemyMap.getMapHeight() : spawnTrigger; //set upper bound
@@ -79,9 +87,9 @@ public class EnemyEntry {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
             System.out.printf("Class Name = %s\n", enemyClassName);
             Logger.getLogger(EnemyEntry.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
         return instance;
     }
-    
+
 }

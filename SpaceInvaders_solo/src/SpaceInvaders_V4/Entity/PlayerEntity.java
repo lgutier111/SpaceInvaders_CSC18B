@@ -2,13 +2,16 @@ package SpaceInvaders_V4.Entity;
 
 import SpaceInvaders_V4.GameState.GameState;
 import SpaceInvaders_V4.Main.ResourceFactory;
+import SpaceInvaders_V4.Users.Score;
 
 import SpaceInvaders_V4.Util.Sprite;
 import SpaceInvaders_V4.Util.SystemTimer;
 import java.awt.Color;
 import java.awt.Rectangle;
 
-//player controlled entity
+/**
+ * @author Bee-Jay
+ */
 public class PlayerEntity extends Entity {
 
     //the game in which the ship exists
@@ -26,8 +29,22 @@ public class PlayerEntity extends Entity {
     private int thrusterCol = 0;
     private final int[] thrusterPos = new int[4];
     private int throttle;
+
+    /**
+     * Constant value for setThrottle method Thrusters will not render
+     */
     public static final int THROTTLE_OFF = 0;
+
+    /**
+     * Constant value for setThrottle method Thrusters will render at normal
+     * length
+     */
     public static final int THROTTLE_FULL = 1;
+
+    /**
+     * Constant value for setThrottle method Thrusters will render at extended
+     * length
+     */
     public static final int THROTTLE_TURBO = 2;
 
     //collision fields
@@ -47,7 +64,14 @@ public class PlayerEntity extends Entity {
     private int shotType;
     private int shotLevel;
 
+    /**
+     * Constant value for shotLevel bullets will be fired in shoot method
+     */
     public static final int BULLET = 1;
+
+    /**
+     * Constant value for shotLevel Lasers will be fired in shoot method
+     */
     public static final int LASER = 2;
     private final int BULLETSPEED = 750;
     private final int LASERSPEED = 800;
@@ -65,11 +89,14 @@ public class PlayerEntity extends Entity {
     private boolean up;
     private boolean trigger;//firing mechanism
 
-    //Create a new entity to represent the players ship
-    // @param game The game in which the ship is being created
-    // @param x The initial x location of the player's ship
-    // @param y The initial y location of the player's ship
-    // @param ref 
+    /**
+     * Create a new entity to represent the players ship
+     *
+     * @param game The game in which the ship is being created
+     * @param x The initial x location of the player's ship
+     * @param y The initial y location of the player's ship
+     * @param ref optional flag
+     */
     public PlayerEntity(GameState game, int x, int y, String ref) {
         super(x, y, "resources/sprites/player/Player1Sprite.png");
         this.throttle = THROTTLE_FULL;
@@ -302,39 +329,33 @@ public class PlayerEntity extends Entity {
 
     }
 
-//    public void setLeft(boolean left) {
-//        this.left = left;
-//    }
-//
-//    public void setRight(boolean right) {
-//        this.right = right;
-//    }
-//
-//    public void setDown(boolean down) {
-//        this.down = down;
-//    }
-//
-//    public void setUp(boolean up) {
-//        this.up = up;
-//    }
-//
-//    public void setTrigger(boolean trigger) {
-//        this.trigger = trigger;
-//    }
+    /**
+     * Activate temporary invulnerability
+     *
+     * @param flinchTime time in seconds for invulnerability to expire
+     */
     public void setFlinching(double flinchTime) {
         flinching = true;
         flinchTimer = SystemTimer.getTime() + flinchTime;
 
     }
 
+    /**
+     * Set Throttle Level
+     *
+     * @param throttle PlayerEntity.THROTTLE_OFF, PlayerEntity.THROTTLE_FULL, or
+     * PlayerEntity.THROTTLE_Turbo
+     */
     public void setThrottle(int throttle) {
-        if (throttle < THROTTLE_OFF || throttle > THROTTLE_TURBO) {
+        if (throttle < THROTTLE_OFF || throttle > THROTTLE_TURBO) {//bound check
             throttle = THROTTLE_FULL;
         }
         this.throttle = throttle;
     }
 
-    //Shooting method
+    /**
+     * shoot projectile according to shotType and shotLevel
+     */
     public void shoot() {
         //check firing interval
         if (SystemTimer.getTime() - lastShot < shotInterval) {
@@ -538,7 +559,6 @@ public class PlayerEntity extends Entity {
 
     }
 
-    //override draw method
     @Override
     public void draw() {
         if (!(flinching && ((int) ((flinchTimer - SystemTimer.getTime()) * 16)) % 2 == 0)) {//blink when flinching
@@ -603,8 +623,6 @@ public class PlayerEntity extends Entity {
 //        (ResourceFactory.get().getGameWindow()).fillRect(Color.BLUE, hitBox);
     }
 
-    //move ship
-    //@param delta time in miliseconds since last movement
     @Override
     public void move(Double delta) {
         //set bounds to prevent movement offscreen
@@ -665,9 +683,9 @@ public class PlayerEntity extends Entity {
                 }
 
             } else if (other instanceof EnemyShotEntity) {
-                if(((EnemyShotEntity)other).isHit()){
+                if (((EnemyShotEntity) other).isHit()) {
                     return;
-                }else{
+                } else {
                     die();
                 }
             }
@@ -679,12 +697,19 @@ public class PlayerEntity extends Entity {
         }
     }
 
+    /**
+     * kill player, notify gamestate, create shrapnel, decrement score, create
+     * explosion
+     */
     private void die() {
         hitBox.setLocation(-200, -200);
         if (shotLevel > 1 || shotType == LASER) {
             Item pu = new PowerUp(game, (int) x, (int) y, "");
             game.getItems().add(pu);
         }
+
+        Score.addDeath();
+        Score.addScore(Score.getDeaths() * -1000);
 
         MedExplosion me = new MedExplosion(game, (int) x, (int) y, "");
         game.getEffects().add(me);
@@ -697,24 +722,39 @@ public class PlayerEntity extends Entity {
 
     }
 
+    /**
+     * upgrade or swap weapon, increment score class
+     *
+     * @param type shot type using Item.BULLET for BULLET and Item.LASER for
+     * LASER
+     */
     private void powerUp(int type) {
+        Score.addPowerUp();
         if (type == Item.BULLET) {
             if (shotType == BULLET) {
                 if (shotLevel < 8) {
                     shotLevel++;
+                    Score.addScore(100 * shotLevel);
+                } else {
+                    Score.addScore(2000);
                 }
             } else if (shotType == LASER) {
                 shotType = BULLET;
                 shotInterval = bulletInterval;
+                Score.addScore(100 * shotLevel);
             }
         } else if (type == Item.LASER) {
             if (shotType == LASER) {
                 if (shotLevel < 8) {
                     shotLevel++;
+                    Score.addScore(100 * shotLevel);
+                } else {
+                    Score.addScore(2000);
                 }
             } else if (shotType == BULLET) {
                 shotType = LASER;
                 shotInterval = laserInterval;
+                Score.addScore(100 * shotLevel);
             }
         }
     }

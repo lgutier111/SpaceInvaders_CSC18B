@@ -3,8 +3,6 @@ package SpaceInvaders_V4.Main;
 //central reverence poin for creating resources for use in the game
 import SpaceInvaders_V4.Java2D.Java2DGameWindow;
 import SpaceInvaders_V4.Java2D.Java2DSpriteStore;
-import SpaceInvaders_V4.LWJGL.LWJGLGameWindow;
-import SpaceInvaders_V4.LWJGL.LWJGLSprite;
 import SpaceInvaders_V4.Util.Sprite;
 import java.awt.Color;
 
@@ -63,10 +61,10 @@ public class ResourceFactory {
                     window = new Java2DGameWindow();
                     break;
                 }
-                case OPENGL_LWJGL: {
-                    window = new LWJGLGameWindow();
-                    break;
-                }
+//                case OPENGL_LWJGL: {
+//                    window = new LWJGLGameWindow();
+//                    break;
+//                }
             }
         }
         return window;
@@ -84,9 +82,9 @@ public class ResourceFactory {
             case JAVA2D: {
                 return Java2DSpriteStore.get().getSprite((Java2DGameWindow) window, ref);
             }
-            case OPENGL_LWJGL: {
-                return new LWJGLSprite((LWJGLGameWindow) window, ref);
-            }
+//            case OPENGL_LWJGL: {
+//                return new LWJGLSprite((LWJGLGameWindow) window, ref);
+//            }
         }
 
         throw new RuntimeException("Unknown rendering type: " + renderingType);
@@ -101,10 +99,10 @@ public class ResourceFactory {
             case JAVA2D: {
                 return Java2DSpriteStore.get().getSprite((Java2DGameWindow) window, ref, color, alpha);
             }
-            case OPENGL_LWJGL: {
-                int[] dummy = new int[0];
-                return new LWJGLSprite((LWJGLGameWindow) window, ref, color, alpha, dummy);
-            }
+//            case OPENGL_LWJGL: {
+//                int[] dummy = new int[0];
+//                return new LWJGLSprite((LWJGLGameWindow) window, ref, color, alpha, dummy);
+//            }
         }
 
         throw new RuntimeException("Unknown rendering type: " + renderingType);
@@ -116,10 +114,10 @@ public class ResourceFactory {
             case JAVA2D: {
                 return Java2DSpriteStore.get().getSprite((Java2DGameWindow) window, ref, x, y, width, height);
             }
-            case OPENGL_LWJGL: {
-               int[] subData = { x, y, width, height};
-                return new LWJGLSprite((LWJGLGameWindow) window, ref, null, 0, subData);
-            }
+//            case OPENGL_LWJGL: {
+//               int[] subData = { x, y, width, height};
+//                return new LWJGLSprite((LWJGLGameWindow) window, ref, null, 0, subData);
+//            }
         }
         throw new RuntimeException("Unknown rendering type: " + renderingType);
     }
@@ -130,10 +128,10 @@ public class ResourceFactory {
             case JAVA2D: {
                 return Java2DSpriteStore.get().getSprite((Java2DGameWindow) window, ref, x, y, width, height, color, alpha);
             }
-            case OPENGL_LWJGL: {
-                int[] subData = { x, y, width, height};
-                return new LWJGLSprite((LWJGLGameWindow) window, ref, color, alpha, subData);
-            }
+//            case OPENGL_LWJGL: {
+//                int[] subData = { x, y, width, height};
+//                return new LWJGLSprite((LWJGLGameWindow) window, ref, color, alpha, subData);
+//            }
         }
         throw new RuntimeException("Unknown rendering type: " + renderingType);
     }

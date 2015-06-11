@@ -3,6 +3,7 @@ package SpaceInvaders_V4.Java2D;
 import SpaceInvaders_V4.GameState.GameStateManager;
 import SpaceInvaders_V4.Main.GameWindow;
 import SpaceInvaders_V4.Main.GameWindowCallback;
+import SpaceInvaders_V4.Users.Score;
 import SpaceInvaders_V4.Util.Keyboard;
 import SpaceInvaders_V4.Util.SystemTimer;
 import java.awt.Canvas;
@@ -43,33 +44,49 @@ public class Java2DGameWindow extends Canvas implements GameWindow {
         frame = new JFrame();
     }
 
-    //set title of the game window
-    //@param title for the game window
+    /**
+     * set title of the game window
+     *
+     * @param title for the game window
+     */
     @Override
     public void setTitle(String title) {
         frame.setTitle(title);
     }
 
-    //set game display resolution
-    //@param x horizontal resolution
-    //@param y vertical resolution
+    /*set game display resolution
+     *@param x horizontal resolution
+     *@param y vertical resolution
+     */
     @Override
     public void setResolution(int x, int y) {
         G_WIDTH = x;
         G_HEIGHT = y;
     }
 
-    //get window height and/or width
-    //@return int vertical and/or horizontal witdh
+    /**
+     * get window height and/or width
+     *
+     * @return horizontal width
+     */
+    @Override
     public int getWidth() {
         return G_WIDTH;
     }
 
+    /**
+     * get window height
+     *
+     * @return vertical height
+     */
+    @Override
     public int getHeight() {
         return G_HEIGHT;
     }
 
-    //start the game window rendering the display
+    /**
+     * start the game window rendering the display
+     */
     @Override
     public void startRendering() {
         //get hold the content of the frame and set up the resolution of the game
@@ -94,7 +111,15 @@ public class Java2DGameWindow extends Canvas implements GameWindow {
 
         //add listner to respond to respond to window close event
         frame.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        Score.submit();
+                    }
+                }.start();
+
                 if (callback != null) {
                     callback.windowClosed();
                 } else {
@@ -122,25 +147,40 @@ public class Java2DGameWindow extends Canvas implements GameWindow {
         gameLoop();
     }
 
-    //set the callback that should be notified on the window events
-    //@param callback The callback that should be notified
+    /**
+     * set the callback that should be notified on the window events
+     *
+     * @param callback The callback that should be notified
+     */
+    @Override
     public void setGameWindowCallback(GameWindowCallback callback) {
         this.callback = callback;
     }
 
-    //check if a particular key is pressed
-    //@param keyCode te code associated with the key to check
-    //@return True if the particular key is pressed
+    /**
+     * check if a particular key is pressed
+     *
+     * @param keyCode the code associated with the key to check
+     * @return True if the particular key is pressed
+     */
+    @Override
     public boolean isKeyPressed(int keyCode) {
         return Keyboard.isPressed(keyCode);
     }
 
-    //retrieve the current accelerated graphics context (package scoped)
+    /**
+     * retrieve the current accelerated graphics context (package scoped)
+     *
+     * @return current accelerated graphics context
+     */
     Graphics2D getDrawGraphics() {
         return g;
     }
 
-    //main game loop
+    /**
+     * main game loop Update, Render, Draw cycle clamped to calculated loop per
+     * second
+     */
     public void gameLoop() {
 
         //set timing intervals
@@ -180,16 +220,31 @@ public class Java2DGameWindow extends Canvas implements GameWindow {
         }
     }
 
+    /**
+     * update game entities based on timing factors
+     *
+     * @param delta time in seconds since last update
+     */
     private void gameUpdate(double delta) {
         gsm.gameUpdate(delta);
     }
 
-    public void fillRect(Color color, Rectangle rect){
+    /**
+     * draw rectangle, used for hitBox debugging
+     *
+     * @param color color of rectangle
+     * @param rect Rectangle object to draw
+     */
+    @Override
+    public void fillRect(Color color, Rectangle rect) {
         g = (Graphics2D) strategy.getDrawGraphics();
         g.setColor(color);
-        g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        g.draw3DRect(rect.x, rect.y, rect.width, rect.height, true);
     }
-    
+
+    /**
+     * render entities to image buffer
+     */
     private void gameRender() {
         //clear screen
         g = (Graphics2D) strategy.getDrawGraphics();
@@ -200,13 +255,19 @@ public class Java2DGameWindow extends Canvas implements GameWindow {
 
     }
 
+    /**
+     * get average frame rate in frames per second
+     *
+     * @return average frame rate in frames per second
+     */
     @Override
     public float getFPS() {
-        return Math.round(averageFPS*100)/100.0f;
+        return Math.round(averageFPS * 100) / 100.0f;
     }
-    
-    
 
+    /**
+     * swap image buffer
+     */
     private void gameDraw() {
         g.dispose();
         strategy.show();
@@ -226,4 +287,10 @@ public class Java2DGameWindow extends Canvas implements GameWindow {
     public void keyReleased(int key) {
         gsm.keyReleased(key);
     }
+
+    @Override
+    public void setVisable(boolean bool) {
+        frame.setVisible(bool);
+    }
+
 }
