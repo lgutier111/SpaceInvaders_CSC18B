@@ -1,0 +1,39 @@
+CSC 18b 42029
+Final group project 06/10/2015
+
+Space Invaders Group
+
+Brian Warfield
+Leo Gutierrez
+Travis Hajagos
+
+List of concepts used by chapter
+
+chapter 14 - GUI
+	-swing  -  SpaceInvaders_solo\build\classes\SpaceInvaders_V4\Score\HighScore_Frame.class      
+	-AWT  -  SpaceInvaders_solo\build\classes\SpaceInvaders_V4\Score\HighScore_Frame.java
+	-Forms  -  SpaceInvaders_solo\build\classes\SpaceInvaders_V4\LevelEditor\EntityListEditor.java
+	-Event Handling  -  SpaceInvaders_solo\build\classes\SpaceInvaders_V4\Users\UserControlPanel.java lines 641-655
+	
+chapter 15 - Graphics Java 2D
+	-Draw functions - SpaceInvaders_solo\build\classes\SpaceInvaders_V4\Entity\EnemyEntity.java lines 240-257
+	Pretty much all the Entity objects have a draw function to draw them onto the screen
+
+chapter 16 - Regular Expressions
+	-  SpaceInvaders_solo\build\classes\SpaceInvaders_V4\Util\Validator.java
+
+chapter 17 - file stream / serialization
+	-Buffering  -  SpaceInvaders_solo\build\classes\SpaceInvaders_V4\Java2D\Java2DSpriteStore.java lines 55-76
+	-File stream - SpaceInvaders_solo\build\classes\SpaceInvaders_V4\LevelEditor\EntityListEditor.java lines 286-374
+	-serialization  -  not implimented
+
+chapter 26 - threads
+	-  SpaceInvaders_solo\build\classes\SpaceInvaders_V4\GameState\Level1State.java line 50
+
+chapter 27 - Networking
+	-Sockets  -  not implimented 
+
+chapter 28 - Database
+	-SQL connections - SpaceInvaders_solo\build\classes\SpaceInvaders_V4\Util\DBConnect.java
+	
+
